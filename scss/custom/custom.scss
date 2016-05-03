@@ -1,0 +1,473 @@
+$app-color:#e8f466;
+.app-color {
+    color: $app-color;
+}
+
+body {
+    font-family: "Open Sans Semibold" !important;
+    h1 {
+        font-size: 24px !important;
+    }
+}
+
+a{
+	color:#0000FF;
+}
+p{
+color:#FFF;
+}
+.spinner {
+fill:#fff;
+}
+ion-content{
+text-align:center;
+background:url('../img/bg.jpg');
+}
+ion-content.menu{
+text-align:left;
+}
+
+// Generic header 
+h1,h2 {
+    text-align: center;
+    color: #fff;
+    font-family: "Open Sans Semibold" !important;
+    margin-top: 0px !important;
+    margin-bottom: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.h3, h3 {
+    font-size: 40px;
+    font-weight: bold;
+    font-family: "Open Sans Semibold" !important;
+}
+h2.welcome_text{
+  font-family: "Open Sans Light 300 Italic" !important;
+  font-weight: 300 !important;
+  font-style:italic !important;
+  padding:0 !important;
+}
+h1.org_name{
+  font-weight:500 !important;
+  font-size: 36px !important;
+  padding:0 !important;
+}
+h1.headerH1{
+  font-size: 40px !important;
+  font-weight:bolder !important;
+}
+h2.headerH2{
+  font-size: 30px !important;
+  font-weight:bolder !important;
+}
+// Input Error Class for Red border
+.ng-invalid {
+    color: #fff !important;
+    background-color: #ff3333 !important;
+    border: 1px solid #f05157 !important;
+}
+// Scroll Style
+.scroll-bar {
+    display: none;
+}
+// Header Color 
+.bar-positive .button.button-icon{
+	color : #fff;
+}
+.bar, .bar-header {
+    background: #49B4E2 !important;
+    border-color :#49B4E2 !important;
+    .title {
+        font-family: "Open Sans Semibold" !important;
+        font-size: 28px;
+        text-overflow: initial !important;
+        white-space: normal !important;
+        text-align: center;
+         color:#fff !important;
+    }
+}
+.back-button:before{
+display:none;
+}
+.header_img{
+    position: absolute !important;
+    z-index: 9999;
+    right: 5px;
+    width: 40px;
+}
+
+.menu, .menu .item{
+	color: #ff4c54 !important;
+	background: #e8f466 !important;
+}
+
+.prize_list{
+text-align:left;
+color:#000;
+    color: #000;
+    margin: -40px auto 0 !important;
+    width: 99%;
+}
+.prize_list li{
+    text-align: center !important;
+    border-bottom: solid 2px #39C2EE !important;
+}
+.prize_list .item:nth-child(odd) { 
+color:#000;
+background: #E8E8EA;
+
+
+}
+h2.code{
+  background-color: #fff !important;
+  color: #000 !important;
+  margin: 0 auto !important;
+  padding: 5px !important;
+  width: 200px !important;
+}
+// ************Buttons Starts************
+.btn{
+height:39px;
+border:none;
+color:#fff;
+width:70%;
+font-family:"Open Sans Extrabold";
+margin:10px 0px;
+padding: 0px 20px;
+border-radius:10px;
+font-size:28px;
+  font-weight:bolder !important;
+  text-transform: uppercase !important;
+}
+.btn_blue{
+background:url('../img/btn_blue_bg.png') repeat-x;
+}
+.btn_cash{
+background:url('../img/btn_cash_bg.png') repeat-x;
+}
+.btn_red{
+background:url('../img/btn_red_bg.png') repeat-x;
+}
+.btn_yellow{
+background:url('../img/btn_yellow_bg.png') repeat-x;
+}
+.btn_wepay{
+    background:url('../img/btn_wepay_bg.png') repeat-x;
+    background-color: transparent !important;
+    width: 250px !important;
+    padding:5px !important;
+    border:none !important;
+    margin: 15px auto !important;
+    -webkit-border-radius: 5px !important;
+    -moz-border-radius: 5px !important;
+    border-radius: 5px !important;
+}
+.btn_cash{
+    background:url('../img/btn_cash_bg.png') repeat-x;
+    background-color: transparent !important; width: 250px !important;
+    margin: 15px auto !important;
+    border:none !important;
+    -webkit-border-radius: 5px !important;
+    -moz-border-radius: 5px !important;
+    border-radius: 5px !important;
+    color: #fff !important;
+    height: 58px !important;
+}
+
+
+// ************Modal Template Starts************
+.modal-backdrop.active {
+    background-color: rgba(0, 0, 0, .8);
+}
+.modal {
+    background: transparent;
+}
+// ************Modal Template Ends**************
+
+
+
+//New order and upload modal 
+
+.modal-backdrop.active{
+    background:none !important;
+}
+.newModals {
+
+    width: 100% !important;
+    height: 100% !important;
+    top: 10% !important;
+
+    h3, h4, p {
+        text-align: center;
+        color: #fff;
+    }
+    h3 {
+        font-size: 30px;
+    }
+    h4 {
+        font-size: 24px;
+        span {
+            font-size: 40px;
+        }
+    }
+    p {
+        font-size: 18px;
+    }
+    img {
+        width: 100%;
+        padding: 50px;
+    }
+}
+
+
+
+.clear{
+clear:both;
+}
+.alert_msg{
+	margin:5px auto;
+	padding: 10px;
+	text-align:center;
+	font-family: "Open Sans Semibold" !important;
+	font-size:16px;
+}
+.badge{
+	background-color: #FFCC66 !important;
+	font-color: #fff;
+	font-family: "Open Sans Semibold" !important;
+	padding: 8px 12px;
+	border-radius: 20px;
+}
+
+// Form Style
+.formStyle {
+    width: 100%;
+    background: none !important;
+    margin: 0px;
+    height: 100%;
+    margin-top: 20px;
+    div {
+        padding: 0px;
+        label {
+            margin-bottom: 0px !important;
+        }
+        .selectGender {
+            label {
+                min-height: 54px;
+                select {
+                    width: 100%;
+                    max-width: 100%;
+                    position: relative;
+                    direction: initial;
+                }
+            }
+        }
+    }
+    label {
+        border: none;
+        padding: 0px;
+        margin: 10px !important;
+        input {
+            padding: 15px;
+            height: 55px;
+            color:#1b1b1f !important;
+        }
+    }
+}
+
+.form_button{
+	font-size: 24px !important;
+    color: #000;
+    font-family: "Open Sans Semibold" !important;
+    opacity: 1;
+    background-color:#a2aa47;
+}
+
+.form_button_small{
+	font-size: 20px !important;
+    color: #fff;
+    font-family: "Open Sans Semibold" !important;
+    opacity: 1;
+    background-color:#a2aa47;
+    border: none;
+}
+
+
+//Public Templates Style
+.public-temps {
+    h1 {
+        text-align: center;
+        padding: 0px 10px;
+    }
+    h4 {
+        text-align: left;
+        font-size: 30px;
+        margin-left: 10px;
+        margin-right: 10px;
+        font-family: "Open Sans Semibold" !important;
+    }
+    p {
+        text-align: justify;
+        padding: 0px 10px;
+    }
+    img {
+        width: 200px;
+        margin: 20px auto;
+        display: block;
+    }
+}
+
+
+// Media Query 
+@media only screen and (min-width: 321px) and (max-width: 671px) {
+    // ***********Sign Up Template Starts**************
+    .sign-up-container {
+        .sign-up-guest {
+            .sign-up-container-left {
+                .icon-container {
+                    padding: 15px 26px;
+                }
+            }
+        }
+        .sign-up-old, .sign-up-login {
+            .sign-up-container-left {
+                .icon-container {
+                    padding: 15px 28px;
+                }
+            }
+        }
+        .sign-up-facebook {
+            .sign-up-container-left {
+                .icon-container {
+                    padding: 15px 35px;
+                }
+            }
+        }
+    }
+    // ************Sign Up Template Ends************
+}
+@media only screen and (max-width: 500px) {
+    // ***********Sign Up Template Starts**************
+    .sign-up-container {
+        .sign-up-guest {
+            .sign-up-container-left {
+                .icon-container {
+                    padding: 5px 17px;
+                }
+            }
+        }
+        .sign-up-old, .sign-up-login {
+            .sign-up-container-left {
+                .icon-container {
+                    padding: 5px 19px;
+                }
+            }
+        }
+        .sign-up-facebook {
+            .sign-up-container-left {
+                .icon-container {
+                    padding: 5px 26px;
+                }
+            }
+        }
+        .sign-up-container-right {
+            font-size: 20px !important;
+            span {
+                margin-top: 5px !important;
+            }
+        }
+    }
+    // ************Sign Up Template Ends************
+}
+@media screen and (min-height: 625px) and ( max-height: 670px) {
+    .confirmation_screen {
+        .wide-as-needed {
+            .scroll {
+                div.selected-photos {
+                    width: 250px;
+                    height: 250px;
+                }
+            }
+        }
+    }
+}
+@media screen and (min-height: 560px) and ( max-height: 625px) {
+    .confirmation_screen {
+        .wide-as-needed {
+            .scroll {
+                div.selected-photos {
+                    width: 200px;
+                    height: 200px;
+                }
+            }
+        }
+    }
+}
+@media screen and (min-height: 505px) and ( max-height: 560px) {
+    .confirmation_screen {
+        .wide-as-needed {
+            .scroll {
+                div.selected-photos {
+                    width: 150px;
+                    height: 150px;
+                }
+            }
+        }
+    }
+}
+@media screen and ( max-height: 505px) {
+    .confirmation_screen {
+        .wide-as-needed {
+            .scroll {
+                div.selected-photos {
+                    width: 100px;
+                    height: 100px;
+                }
+            }
+        }
+    }
+}
+
+
+// ************ avatar styles ************
+.avatar {
+    position: relative;
+    overflow: hidden;
+    float: left;
+    margin: 10px;
+    padding: 7px;
+    }
+
+    .avatar:after,
+    .avatar:before {
+        content: "";
+        position: absolute;
+        z-index: 2;
+        top: 3px;
+        left: 3px;
+        right: 3px;
+        bottom: 3px;
+        border: 1px solid #999; 
+        
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%; 
+     
+        box-shadow: 0px 1px 1px 1px #bbb; 
+        } 
+
+    .avatar:after {
+        z-index: 1;
+        border: 5px solid #fff; 
+    
+        -webkit-box-shadow: 0px 0px 0px 50px #fff;
+        -moz-box-shadow: 0px 0px 0px 50px  #fff;
+        box-shadow: 0px 0px 0px 50px  #fff;   
+        }  
+    
+    .avatar img{
+        display: block;
+        }
+// ************ avatar styles  Ends************    

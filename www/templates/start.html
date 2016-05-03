@@ -1,0 +1,27 @@
+<ion-view cache-view="false" view-title="{{view_title}}" hide-nav-bar="true" hide-back-button="{{hide_back_btn}}"> <ion-content>
+<div>
+	<br />
+	<img src="img/splash_logo.png" />
+	<br />
+	<img src="img/splash_text_logo.png" />
+	<br />
+	<img src="img/splash_slogan.png" />
+	<br />
+	<br />
+</div>
+
+<h1>Name of Organization</h1>
+<div class="list list-inset">
+
+	<label class="item item-input">
+		<input type="text" ng-model="data.query" ng-value="data.query" placeholder="Search Organization" autocorrect="off"
+			autocomplete="off" autocapitalize="off" />
+	</label>
+
+</div>
+<br />
+<div class="list prize_list">
+	<li class='item' ng-if="data.query" ng-repeat="org in filteredOrgs" ng-click="org_select(org);">{{org.organisation_name}},
+		{{org.organisation_city}} ({{org.organisation_state}})</li>
+</div>
+</ion-content> </ion-view>

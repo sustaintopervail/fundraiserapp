@@ -1,0 +1,35 @@
+<ion-view cache-view="false" view-title="{{view_title}}" hide-back-button="{{hide_back_btn}}"> <ion-content>
+	<h1>Cash Payment</h1>
+<div class="list list-inset formStyle">
+
+	<label class="item item-input">
+		<input type="text" name="first_name" ng-model="formData.first_name" value="{{formData.first_name}}"
+			placeholder="First Name" class="{{form_error.first_name}}" />
+	</label>
+
+	<label class="item item-input">
+		<input type="text" name="last_name" ng-model="formData.last_name" value="{{formData.last_name}}"
+			placeholder="Last Name" class="{{form_error.last_name}}" />
+	</label>
+
+
+	<label class="item item-input">
+		<input type="email" name="email" ng-model="formData.email" placeholder="Email" value="{{formData.email}}"
+			class="{{form_error.email}}" />
+	</label>
+
+	<label class="item item-input">
+		<input type="text" name="cell_no" ng-model="formData.cell_no" placeholder="Mobile Phone" value="{{formData.cell_no}}"
+			class="{{form_error.cell_no}}" ng-minlength="10" ng-maxlength="10" onkeypress="if(this.value.length > 9){event.preventDefault();}" />
+	</label>
+
+	<label class="item item-input">
+		<input type="text" name="code" ng-model="formData.code" placeholder="Code Given to You" value="{{formData.code}}"
+			class="{{form_error.code}}" />
+	</label>
+</div>
+
+
+<button class="button-full btn btn_yellow"  style="margin:0 auto;width: 150px;" ng-click="submit_cash_btn()">GO</button>
+
+</ion-content> </ion-view>

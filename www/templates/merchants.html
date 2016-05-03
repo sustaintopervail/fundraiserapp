@@ -1,0 +1,14 @@
+<ion-view cache-view="false" view-title="{{view_title}}" hide-back-button="{{hide_back_btn}}"> <ion-content>
+<ul class="list prize_list" style="margin-top: 10px !important;">
+	<li class='item' ng-repeat="mrg in merchants">
+		<strong style="color: #000 !important; font-weight: bolder !important; font-size: 16px !important;">{{mrg.merchant_name}}</strong>
+		<p>Address: {{mrg.address}}</p>
+		<p>
+			Phone:
+			<a ng-click="triggerCall('{{mrg.business_phone}}')" href="#">{{mrg.business_phone}}</a>
+		</p>
+		<p style="color: #FF69B4 !important;">Offer: {{mrg.offer}}</p>
+		<p>Approved by: {{mrg.owner}}</p>
+	</li>
+</ul>
+</ion-content> </ion-view>

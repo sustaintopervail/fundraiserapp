@@ -1,0 +1,13 @@
+<ion-view cache-view="false"  view-title="{{view_title}}" hide-back-button="{{hide_back_btn}}"> <ion-content>
+<div style="text-align: right;padding-right: 20px;"><a href="#" ng-click="merchants()">Merchants</a></div>
+<h1 style="color:blue;font-weight:bolder;font-size:24px;">Virtual Discount Card</h1>
+<p><strong>{{discount_data.organization.organisation_name}}</strong> {{discount_data.organization.organisation_city}} <strong>{{discount_data.organization.organisation_state}}</strong></p>
+<img ng-src="{{discount_data.organization.organisation_logo}}" />
+<h1 style="text-align: center;font-weight: bolder;color:black;">GOOD THRU: {{discount_data.code.expiry_date}}</h1>
+<p ng-if="discount.code.subscription_allowed > 1">
+   {{data.company_name}}
+ </p>
+<div style="float: left;width:45%"><a href="#" ng-click="login();">Login</a></div>
+<div style="float: right;width:45%;color:white;"><strong>Card#</strong>{{discount_data.code.code}}</div>
+</ion-content>
+</ion-view>

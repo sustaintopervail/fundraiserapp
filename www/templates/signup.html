@@ -1,0 +1,28 @@
+<ion-view cache-view="false" view-title="{{view_title}}"> <ion-content>
+	<h1>e-payment</h1>
+<div class="list list-inset formStyle">
+	<label class="item item-input">
+		<input type="text" name="first_name" ng-model="signup.first_name" class="{{signup_error.first_name}}"
+			   value="{{signup.first_name}}" placeholder="First Name" autocorrect="off" autocomplete="off" />
+	</label>
+
+	<label class="item item-input">
+		<input type="text" name="last_name" ng-model="signup.last_name" class="{{signup_error.last_name}}"
+			   value="{{signup.last_name}}" placeholder="Last Name" autocorrect="off" autocomplete="off" />
+	</label>
+
+	<label class="item item-input">
+		<input type="email" name="email" ng-model="signup.email" class="{{signup_error.email}}" value="{{signup.email}}"
+			   placeholder="Email" autocorrect="off" autocomplete="off" autocapitalize="off" />
+	</label>
+
+	<label class="item item-input">
+		<input type="text" name="cell_no" ng-model="signup.cell_no" class="{{signup_error.cell_no}}"
+			   value="{{signup.cell_no}}" placeholder="Cell Number" ng-minlength="10" ng-maxlength="10" onkeypress="if(this.value.length > 9){event.preventDefault();}"  />
+	</label>
+
+</div>
+
+<button class="button-full btn btn_yellow" style="width: 150px;margin: 0 auto;" ng-click="signupSubmit()">Go</button>
+
+</ion-content> </ion-view>

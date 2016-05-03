@@ -1,0 +1,14 @@
+<ion-view view-title="{{view_title}}"> <ion-content>
+<div class="list list-inset formStyle">
+	<h1>Login</h1>
+	<label class="item item-input">
+		<input type="email" name="email" value="{{login.username}}" ng-model="login.username" class="{{login_error.email}}"
+			placeholder="Email" autocorrect="off" autocomplete="off" autocapitalize="off" />
+	</label>
+	<label class="item item-input">
+		<input type="password" name="password" value="{{login.password}}" ng-model="login.password"
+			class="{{login_error.password}}" placeholder="Password" />
+	</label>
+</div>
+
+<img src="img/btn_go.png" ng-click="doLogin()" /> </ion-content> </ion-view>

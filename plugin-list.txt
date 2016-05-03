@@ -1,0 +1,11 @@
+cordova plugin add org.apache.cordova.splashscreen
+cordova plugin add org.apache.cordova.statusbar
+
+cordova plugin add org.apache.cordova.console
+cordova plugin add org.apache.cordova.device
+cordova plugin add com.ionic.keyboard
+
+cordova plugin add com.paypal.cordova.mobilesdk
+
+
+npm install gulp-angular-templatecache --save-dev

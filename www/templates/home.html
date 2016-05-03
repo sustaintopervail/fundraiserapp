@@ -1,0 +1,17 @@
+<ion-view cache-view="false" view-title="{{view_title}}" hide-back-button="{{hide_back_btn}}"> <ion-content>
+
+<div ng-hide="data.code">
+	<div class="col">
+		<h1 class="headerH1">I received <br/>the ${{org.cost}} <br/>contribution</h1>
+	</div>
+
+	<button class="btn btn_red" ng-click="get_code()">Get Code</button>
+	<button class="btn btn_yellow" ng-click="supporter_card()">GO BACK TO CARD</button>
+</div>
+<div class="col" ng-show="data.code">
+	<h1 class="headerH1">Code Generated</h1>
+	<h1 class="headerH1">The Following code is activated. Please give it to your supporters.</h1>
+	<h2 style="background-color: #fff;padding:5px;">{{data.code.code}}</h2>
+</div>
+
+</ion-content> </ion-view>

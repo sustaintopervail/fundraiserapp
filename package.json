@@ -1,0 +1,27 @@
+{
+  "name": "PrizeBond",
+  "version": "1.0.0",
+  "description": "Prizebond Project",
+  "dependencies": {
+    "gulp": "*",
+    "gulp-concat": "*",
+    "gulp-install": "*",
+    "gulp-minify-css": "*",
+    "gulp-rename": "*",
+    "node-sass": "*",
+    "gulp-sass": "*"
+  },
+  "devDependencies": {
+    "bower": "*",
+    "gulp": "*",
+    "gulp-angular-templatecache": "^1.6.0",
+    "gulp-sass": "*",
+    "gulp-uglify": "*",
+    "gulp-util": "*",
+    "node-sass": "*",
+    "shelljs": "*"
+  },
+  "cordovaPlugins": [
+    "com.paypal.cordova.mobilesdk"
+  ]
+}

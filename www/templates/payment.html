@@ -1,0 +1,35 @@
+<ion-view cache-view="false" view-title="{{view_title}}" hide-back-button="{{hide_back_btn}}"> <ion-content>
+	<h1>e-payment</h1>
+<div class="list list-inset formStyle">
+	<!--<label class="item item-input">
+		<input type="text" name="name" ng-model="formData.name" placeholder="Full Name" />
+	</label>-->
+	<label class="item item-input">
+		<input type="text" name="credit_card" ng-model="formData.number" payments-validate="card" payments-format="card"
+			placeholder="Card Number" ng-minlength="19" ng-maxlength="19" onkeypress="if(this.value.length > 18){event.preventDefault();}" onblur="if(this.value.length < 19){alert('Credit card number cannot be less than 16 digits');}" />
+	</label>
+
+	<!--<label class="item item-input">
+		<input type="text" name="email" ng-model="formData.email" placeholder="Email" />
+	</label>-->
+	<label class="item item-input">
+		<input type="text" name="expiry" ng-model="formData.expiry" payments-validate="expiry" payments-format="expiry"
+			placeholder="MM/YY" />
+	</label>
+
+	<label class="item item-input">
+		<input type="text" name="cvc" ng-model="formData.cvv" payments-validate="cvc" payments-format="cvc" placeholder="CVV"  ng-minlength="3" ng-maxlength="4"/>
+	</label>
+
+	<label class="item item-input">
+		<input type="text" name="zipcode" ng-model="formData.zipcode" placeholder="Zip Code"  ng-minlength="5" ng-maxlength="5"  onkeypress="if(this.value.length > 4){event.preventDefault();});" />
+	</label>
+	<!--<label class="item item-input">
+		<input type="text" name="code" ng-model="formData.code" placeholder="Code Given to You" />
+	</label>-->
+</div>
+
+
+<button class="button-full btn btn_yellow"  style="margin:0 auto;width: 150px;" ng-click="submitCCForm()">Pay</button>
+
+</ion-content> </ion-view>

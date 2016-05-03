@@ -1,0 +1,15 @@
+<ion-view cache-view="false" view-title="{{view_title}}" hide-back-button="{{hide_back_btn}}"> <ion-content>
+
+<div class="col" ng-show="error != true">
+	<h1 class="headerH1">The Following code is activated. Please give it to your supporters.</h1>
+	<h2 class="code">{{org_code.code.code}}</h2>
+</div>
+
+<div class="col" ng-show="error">{{org_code.message}}</div>
+
+<button class="btn btn_red" ng-click="go('tabs.home')">GET ANOTHER CODE</button>
+
+<button class="btn btn_yellow" ng-click="supporter_card()">GO BACK TO CARD</button>
+
+<button class="btn btn_blue" ng-click="logout();">Logout</button>
+</ion-content> </ion-view>

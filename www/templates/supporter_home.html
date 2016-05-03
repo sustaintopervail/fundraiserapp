@@ -1,0 +1,16 @@
+<ion-view cache-view="false" view-title="{{view_title}}" hide-back-button="{{hide_back_btn}}"> <ion-content>
+
+<h1>{{org.organisation_name}}</h1>
+	<p>{{org.organisation_city}}({{org.organisation_state}})</p><br/><br/>
+	<h2 class="headerH2">
+		Number of biz<br />Participating <span style="color:#E0AD2E !important;">{{org.participants}}</span> <a style="padding:5px;border:solid 1px #fff;border-radius: 20px;color:#E0AD2E !important;" ng-click="merchants_view()">View</a>
+		<br/><br/>
+		<div>Cost: {{org.cost}}</div>
+	</h2>
+
+	<button class="button button-full btn_wepay form_button" ng-click="register_supporter()"><img style="width:150px;" src="https://go.wepay.com/frontend/images/wepay-logo.svg" /></button>
+	<br/>
+	<br/><span style="color:#fff !important;font-size:30px;font-weight: bolder;">OR</span><br/>
+	<p><small style="color:#fff;">If  a Supporter is sharing a code with you, please proceed by choosing the Cash option</small></p>
+	<button class="button button-full btn_cash form_button" ng-click="cash_click()">Cash</button>
+</ion-content> </ion-view>
