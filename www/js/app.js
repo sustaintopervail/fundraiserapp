@@ -2376,329 +2376,6 @@ angular.module('myFastClick', []).run(function() {
 	FastClick.attach(document.body);
 });
 
-starter.controller('AppCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'config', 'localStorageService',
-	function($scope, $rootScope, $state, $stateParams, $timeout, config, localStorageService) {
-
-	} ]);
-starter.controller('codeCtrl', [
-	'$scope',
-	'$rootScope',
-	'$state',
-	'$stateParams',
-	'config',
-	'utils',
-	'fundModel',
-	'popupTimer',
-	'userDataService',
-	'localStorageService',
-	'popupTimer',
-	function($scope, $rootScope, $state, $stateParams, config, utils, fundModel, loginModel, userDataService,
-		localStorageService, popupTimer) {
-		$scope.view_title = "Member Organization";
-		$scope.data = {};
-		$scope.hide_back_btn = false;
-		$scope.data.code = false;
-
-		$scope.org = userDataService.getOrg();
-		$scope.org_code = localStorageService.get('org_code');
-
-		$scope.error = true;
-		if ($scope.org_code.success) {
-			$scope.error = false;
-		}
-
-
-
-	} ]);
-
-starter.controller('HomeCtrl', [
-	'$scope',
-	'$rootScope',
-	'$state',
-	'$stateParams',
-	'config',
-	'utils',
-	'fundModel',
-	'popupTimer',
-	'userDataService',
-	'localStorageService',
-	'popupTimer',
-	function($scope, $rootScope, $state, $stateParams, config, utils, fundModel, loginModel, userDataService,
-		localStorageService, popupTimer) {
-		$scope.view_title = "Member Organization";
-		$scope.data = {};
-		$scope.hide_back_btn = false;
-		$scope.data.code = false;
-
-		$scope.org = userDataService.getOrg();
-
-		$scope.get_code = function() {
-
-			$rootScope.show_spinner();
-
-			post_data = {
-				'access_token' : localStorageService.get('access_token'),
-				'organisation_id' : $scope.org.id
-			};
-
-			var _codePromise = fundModel.get_code(post_data);
-
-			_codePromise.then(function(JsonData) {
-				$rootScope.hide_spinner();
-				utils.debug('JsonData recieved');
-				utils.debug(JSON.stringify(JsonData));
-				localStorageService.set('org_code', JsonData.data);
-				$state.go("tabs.code");
-			}, function(status) {
-				$rootScope.hide_spinner();
-			});
-
-		};
-
-		$rootScope.supporter_card = function() {
-			if(localStorageService.get('supporter_access_token')){
-				localStorageService.set('access_token', localStorageService.get('supporter_access_token'));
-				$state.go('tabs.card');
-			}else{
-				alert('You do not have any activated virtual card');
-			}
-		};
-
-	} ]);
-
-starter.controller('LoginCtrl', [
-	'$rootScope',
-	'$scope',
-	'$state',
-	'$stateParams',
-	'config',
-	'utils',
-	'loginModel',
-	'userDataService',
-	'localStorageService',
-	'popupTimer',
-	function($rootScope, $scope, $state, $stateParams, config, utils, loginModel, userDataService, localStorageService,
-		popupTimer) {
-		$scope.view_title = "Member Organization";
-		$scope.hide_back_btn = false;
-
-		var error_class = "ng-invalid ng-dirty";
-		var _org = userDataService.getOrg();
-		$scope.login = {
-			// username : "imhassan66@gmail.com",
-			// email: "imhassan66@gmail.com",
-			// password : "test123",
-
-			username : "",
-			email : "",
-			password : "",
-			client_id : "1234567890",
-			org_id : _org.id,
-			grant_type : "password",
-			redirect_uri : "test"
-		};
-
-		$scope.login_error = {
-			email : "",
-			password : ""
-		};
-		$rootScope.fix_enter_key();
-
-		$scope.validateLoginForm = function() {
-			var isValid = true;
-			$scope.login_error = {
-				email : "",
-				password : ""
-			};
-
-			if ($scope.login.username == "" || utils.is_valid_email($scope.login.username) == false) {
-				$scope.login_error.email = error_class;
-				isValid = false;
-			}
-			if ($scope.login.password == "") {
-				$scope.login_error.password = error_class;
-				isValid = false;
-			}
-
-			return isValid;
-		};
-
-		$scope.doLogin = function() {
-			utils.debug('doLogin');
-			var isValid = $scope.validateLoginForm();
-			if (isValid == false) {
-				return false;
-			}
-			localStorageService.set('key_id', "");
-			$rootScope.show_spinner();
-			$scope.login.email = $scope.login.username;	
-			$scope.login.email = $scope.login.username;
-			var _loginPromise = loginModel.doLogin($scope.login);
-			_loginPromise.then(function(JsonData) {
-				$rootScope.hide_spinner();
-				utils.debug('JsonData recieved');
-				utils.debug(JSON.stringify(JsonData));
-				if (JsonData.success) {
-					localStorageService.set('access_token', JsonData.data.access_token);
-					// set the user's data in service
-					userDataService.setUserSignupData(JsonData.data);
-					utils.debug("user_type: " + JsonData.data.user_type);
-					if (JsonData.data.user_type == "Supporter") {
-						$state.go('tabs.supporter_home');
-					} else {
-						$state.go('tabs.home');
-					}
-
-				} else {
-					utils.debug('login failed: ' + JSON.stringify(JsonData));
-					$scope.modaldata = {
-						title : "Login failed",
-						body : "We are unable to login with your credentials. Please try again."
-					};
-					popupTimer.error($scope);
-
-				}
-
-			}, function(status) {
-				$rootScope.hide_spinner();
-			});
-
-		};
-
-	} ]);
-
-starter.controller('MainCtrl', [
-	'$rootScope',
-	'$scope',
-	'$state',
-	'$stateParams',
-	'config',
-	"utils",
-	"loginModel",
-	"localStorageService",
-	'userDataService',
-	'$ionicLoading',
-	function($rootScope, $scope, $state, $stateParams, config, utils, loginModel, localStorageService, userDataService,
-		$ionicLoading) {
-
-		$rootScope.user_login = false;
-		// check user's key and verify user is loggedin or not
-		$rootScope.isUserLogin = function(callback) {
-			var _isLogin = false;
-			if (localStorageService.get('key_id') != undefined && localStorageService.get('key_id') != null
-				&& localStorageService.get('key_id') != "") {
-
-				if (userDataService.isUserDataSet()) {
-					_isLogin = true;
-					$rootScope.user_login = true;
-					if (callback && typeof callback == 'function') {
-						callback(_isLogin);
-					}
-				} else {
-					var handshakePromose = loginModel.handshake();
-					handshakePromose.then(function(JsonData) {
-						if (JsonData.status) {
-							userDataService.setUserSignupData(JsonData.data);
-							utils.debug("handshake-data: ");
-							utils.debug(JsonData.data);
-							_isLogin = true;
-							$rootScope.user_login = true;
-							if (callback && typeof callback == 'function') {
-								callback(_isLogin);
-							}
-						} else {
-							callback(_isLogin);
-						}
-					}, function(status) {
-						callback(_isLogin);
-					});
-				}
-			} else {
-				if (callback && typeof callback == 'function') {
-					callback(_isLogin);
-				}
-			}
-		};
-
-		// logout user and redirect to login screen
-		$rootScope.logout = function() {
-
-			userDataService.clearUserSignupData();
-			localStorageService.clearAll();
-			// redirect to login
-			$state.go('tabs.start');
-
-		};
-
-		$rootScope.supporter_card = function() {
-			if(localStorageService.get('supporter_access_token')){
-				localStorageService.set('access_token', localStorageService.get('supporter_access_token'));
-				$state.go('tabs.card');
-			}else{
-				alert('You do not have any activated virtual card');
-			}
-		};
-		$rootScope.go = function(state) {
-			// redirect to login
-			$state.go(state);
-		};
-
-		$rootScope.show_spinner = function() {
-			$ionicLoading.show({
-				template : '<ion-spinner icon="circles"></ion-spinner>'
-			});
-		};
-
-		$rootScope.hide_spinner = function() {
-			$ionicLoading.hide();
-			$rootScope.laoding = false;
-		};
-
-		$rootScope.fix_enter_key = function() {
-			utils.debug('1');
-
-			$(document).keypress(function(e) {
-				if (e.which == 13) {
-					utils.debug('You pressed enter!');
-					cordova.plugins.Keyboard.close();
-				}
-			});
-		};
-
-		$rootScope.internetMsgShown = false;
-		$rootScope.checkInternetConnectivity = function() {
-			if ($rootScope.internetMsgShown == false) {
-				$rootScope.internetMsgShown = true;
-				$rootScope.hide_spinner();
-
-				$scope.modaldata = {
-					title : "Network Error",
-					body : "Sorry, you're not connected to the internet."
-				};
-				popupTimer.show($scope, function() {
-
-				}, 5000);
-			}
-		};
-
-		$rootScope.openUrl = function(urlString) {
-			// urlString = encodeURI(urlString);
-			if (utils.is_ios()) {
-				window.open(encodeURI(urlString), '_system', 'location=yes');
-				// $window.open(urlString, '_system');
-				// window.open(urlString, '_blank', 'location=yes')
-				// window.plugins.childBrowser.openExternal(urlString);
-			} else if (utils.is_mobile_ua()) {
-				navigator.app.loadUrl(urlString, {
-					openExternal : true
-				});
-			} else {
-				$window.open(urlString, '_system');
-			}
-		};
-
-	} ]);
-
 starter.controller('MerchantsCtrl',
 	[
 		'$rootScope',
@@ -3101,6 +2778,510 @@ starter.controller('PaymentCtrl', [
 
 	} ]);
 
+starter.controller('StartCtrl', [
+	'$rootScope',
+	'$scope',
+	'$state',
+	'$stateParams',
+	'config',
+	'utils',
+	'fundModel',
+	'loginModel',
+	'userDataService',
+	'localStorageService',
+	'popupTimer',
+	'$filter',
+	function($rootScope, $scope, $state, $stateParams, config, utils, fundModel, loginModel, userDataService,
+		localStorageService, popupTimer, $filter) {
+		$scope.view_title = "My FundRaising";
+		$scope.hide_back_btn = true;
+		$scope.orgs = null;
+		$scope.data = {};
+		$scope.data.query = "";
+		$rootScope.show_spinner();
+
+		var _orgPromise = fundModel.get_organizations();
+
+		_orgPromise.then(function(JsonData) {
+			$rootScope.hide_spinner();
+			utils.debug('JsonData recieved');
+			utils.debug(JSON.stringify(JsonData));
+			if (JsonData.data.success) {
+				$scope.orgs = JsonData.data.profile;
+				$scope.filteredOrgs = $filter('exactMatch')($scope.orgs, $scope.data.query);
+			}
+		}, function(status) {
+			$rootScope.hide_spinner();
+		});
+
+		$scope.org_select = function(org) {
+			console.log(org);
+			console.log('Start: line#40');
+			userDataService.setOrg(org);
+			/*$state.go('tabs.welcome', {}, {reload: true});*/
+			$state.transitionTo('tabs.welcome', $stateParams, {
+				reload: true,
+				inherit: false,
+				notify: true
+			});
+
+
+		};
+
+		$scope.$watch('data.query', function() {
+			console.log($scope.data.query);
+			if ($scope.data.query == "")
+				return;
+			$scope.filteredOrgs = $filter('exactMatch')($scope.orgs, $scope.data.query);
+		});
+
+	} ]);
+
+starter.filter('exactMatch', function() {
+	return function(words, pattern) {
+		var result = [];
+		words.forEach(function(word) {
+			// console.log('hh');
+			if (word.organisation_name.toLowerCase().substring(0, pattern.length) === pattern.toLowerCase()) {
+				result.push(word);
+			}
+		});
+		return result;
+	}
+});
+
+starter.controller('SupporterCardCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', 'config', 'userDataService', 'utils',
+	'localStorageService', 'loginModel','cardModel',
+	function($scope, $rootScope, $state, $stateParams, config, userDataService, utils, localStorageService, loginModel, cardModel) {
+		$scope.view_title = "Supporter";
+		$scope.hide_back_btn = true;
+
+		var _tokenPromise = cardModel.virtual_card(localStorageService.get('access_token'));
+		utils.debug(_tokenPromise);
+		_tokenPromise.then(function(JsonData) {
+			$rootScope.hide_spinner();
+			utils.debug(JsonData);
+			if (JsonData.success) {
+
+				utils.debug('payment verification done');
+				var discount_data = {};
+				discount_data.code = JsonData.code;
+				discount_data.organization = JsonData.organisation;
+				userDataService.set_discount_data(discount_data);
+				//$state.go('tabs.card');
+				$scope.org = userDataService.getOrg();
+				$scope.discount_data = userDataService.get_discount_data();
+				 // console.log($scope.discount_data);
+
+				 if ($scope.discount_data.organization.organisation_logo == "") {
+					 $scope.discount_data.organization.organisation_logo = "img/logo.png";
+				 }
+				$rootScope.hide_spinner();
+				document.addEventListener("backbutton", function(){
+					navigator.app.exitApp();
+				}, false);
+
+
+				//return;
+			} else {
+				utils.debug('payment errror');
+				show_error(JsonData.message);
+				$state.go('tabs.start');
+				return;
+			}
+		}, function(status) {
+			$rootScope.hide_spinner();
+			utils.debug(status);
+		});
+
+		/*$scope.org = userDataService.getOrg();
+		$scope.discount_data = userDataService.get_discount_data();
+		// console.log($scope.discount_data);
+
+		if ($scope.discount_data.organization.organisation_logo == "") {
+			$scope.discount_data.organization.organisation_logo = "img/logo.png";
+		}*/
+		$rootScope.logout = function() {
+
+			userDataService.clearUserSignupData();
+			localStorageService.clearAll();
+			// redirect to login
+			$state.go('tabs.start');
+
+		};
+
+		$rootScope.login = function() {
+			localStorageService.set('supporter_access_token', localStorageService.get('access_token'));
+			$state.go('tabs.login');
+
+		};
+
+		$rootScope.home = function() {
+			$state.go('tabs.supporter_home');
+		};
+
+		$rootScope.merchants = function() {
+			$state.go('tabs.merchants');
+		};
+
+	} ]);
+
+starter.controller('SupporterHomeCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', 'config', 'userDataService', 'utils',
+	'localStorageService', 'loginModel',
+	function($scope, $rootScope, $state, $stateParams, config, userDataService, utils, localStorageService, loginModel) {
+		$scope.view_title = "Supporter";
+		$scope.hide_back_btn = false;
+		$scope.org = userDataService.getOrg();
+
+		$scope.purchase_click = function() {
+			console.log('purchase it');
+			$state.go('tabs.payment');
+		};
+
+		$scope.purchase_click = function() {
+			console.log('purchase it');
+			$state.go('tabs.payment');
+		};
+
+		$scope.register_supporter = function() {
+			//console.log('login/signup it');
+			$state.go('tabs.signup');
+		};
+
+		$scope.merchants_view = function() {
+			$state.go('tabs.merchants');
+		};
+
+		$scope.cash_click = function() {
+			console.log('cash clicked');
+			$state.go('tabs.payment_cash');
+		};
+
+	} ]);
+
+starter.controller('AppCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'config', 'localStorageService',
+	function($scope, $rootScope, $state, $stateParams, $timeout, config, localStorageService) {
+
+	} ]);
+starter.controller('codeCtrl', [
+	'$scope',
+	'$rootScope',
+	'$state',
+	'$stateParams',
+	'config',
+	'utils',
+	'fundModel',
+	'popupTimer',
+	'userDataService',
+	'localStorageService',
+	'popupTimer',
+	function($scope, $rootScope, $state, $stateParams, config, utils, fundModel, loginModel, userDataService,
+		localStorageService, popupTimer) {
+		$scope.view_title = "Member Organization";
+		$scope.data = {};
+		$scope.hide_back_btn = false;
+		$scope.data.code = false;
+
+		$scope.org = userDataService.getOrg();
+		$scope.org_code = localStorageService.get('org_code');
+
+		$scope.error = true;
+		if ($scope.org_code.success) {
+			$scope.error = false;
+		}
+
+
+
+	} ]);
+
+starter.controller('HomeCtrl', [
+	'$scope',
+	'$rootScope',
+	'$state',
+	'$stateParams',
+	'config',
+	'utils',
+	'fundModel',
+	'popupTimer',
+	'userDataService',
+	'localStorageService',
+	'popupTimer',
+	function($scope, $rootScope, $state, $stateParams, config, utils, fundModel, loginModel, userDataService,
+		localStorageService, popupTimer) {
+		$scope.view_title = "Member Organization";
+		$scope.data = {};
+		$scope.hide_back_btn = false;
+		$scope.data.code = false;
+
+		$scope.org = userDataService.getOrg();
+
+		$scope.get_code = function() {
+
+			$rootScope.show_spinner();
+
+			post_data = {
+				'access_token' : localStorageService.get('access_token'),
+				'organisation_id' : $scope.org.id
+			};
+
+			var _codePromise = fundModel.get_code(post_data);
+
+			_codePromise.then(function(JsonData) {
+				$rootScope.hide_spinner();
+				utils.debug('JsonData recieved');
+				utils.debug(JSON.stringify(JsonData));
+				localStorageService.set('org_code', JsonData.data);
+				$state.go("tabs.code");
+			}, function(status) {
+				$rootScope.hide_spinner();
+			});
+
+		};
+
+		$rootScope.supporter_card = function() {
+			if(localStorageService.get('supporter_access_token')){
+				localStorageService.set('access_token', localStorageService.get('supporter_access_token'));
+				$state.go('tabs.card');
+			}else{
+				alert('You do not have any activated virtual card');
+			}
+		};
+
+	} ]);
+
+starter.controller('LoginCtrl', [
+	'$rootScope',
+	'$scope',
+	'$state',
+	'$stateParams',
+	'config',
+	'utils',
+	'loginModel',
+	'userDataService',
+	'localStorageService',
+	'popupTimer',
+	function($rootScope, $scope, $state, $stateParams, config, utils, loginModel, userDataService, localStorageService,
+		popupTimer) {
+		$scope.view_title = "Member Organization";
+		$scope.hide_back_btn = false;
+
+		var error_class = "ng-invalid ng-dirty";
+		var _org = userDataService.getOrg();
+		$scope.login = {
+			// username : "imhassan66@gmail.com",
+			// email: "imhassan66@gmail.com",
+			// password : "test123",
+
+			username : "",
+			email : "",
+			password : "",
+			client_id : "1234567890",
+			org_id : _org.id,
+			grant_type : "password",
+			redirect_uri : "test"
+		};
+
+		$scope.login_error = {
+			email : "",
+			password : ""
+		};
+		$rootScope.fix_enter_key();
+
+		$scope.validateLoginForm = function() {
+			var isValid = true;
+			$scope.login_error = {
+				email : "",
+				password : ""
+			};
+
+			if ($scope.login.username == "" || utils.is_valid_email($scope.login.username) == false) {
+				$scope.login_error.email = error_class;
+				isValid = false;
+			}
+			if ($scope.login.password == "") {
+				$scope.login_error.password = error_class;
+				isValid = false;
+			}
+
+			return isValid;
+		};
+
+		$scope.doLogin = function() {
+			utils.debug('doLogin');
+			var isValid = $scope.validateLoginForm();
+			if (isValid == false) {
+				return false;
+			}
+			localStorageService.set('key_id', "");
+			$rootScope.show_spinner();
+			$scope.login.email = $scope.login.username;	
+			$scope.login.email = $scope.login.username;
+			var _loginPromise = loginModel.doLogin($scope.login);
+			_loginPromise.then(function(JsonData) {
+				$rootScope.hide_spinner();
+				utils.debug('JsonData recieved');
+				utils.debug(JSON.stringify(JsonData));
+				if (JsonData.success) {
+					localStorageService.set('access_token', JsonData.data.access_token);
+					// set the user's data in service
+					userDataService.setUserSignupData(JsonData.data);
+					utils.debug("user_type: " + JsonData.data.user_type);
+					if (JsonData.data.user_type == "Supporter") {
+						$state.go('tabs.supporter_home');
+					} else {
+						$state.go('tabs.home');
+					}
+
+				} else {
+					utils.debug('login failed: ' + JSON.stringify(JsonData));
+					$scope.modaldata = {
+						title : "Login failed",
+						body : "We are unable to login with your credentials. Please try again."
+					};
+					popupTimer.error($scope);
+
+				}
+
+			}, function(status) {
+				$rootScope.hide_spinner();
+			});
+
+		};
+
+	} ]);
+
+starter.controller('MainCtrl', [
+	'$rootScope',
+	'$scope',
+	'$state',
+	'$stateParams',
+	'config',
+	"utils",
+	"loginModel",
+	"localStorageService",
+	'userDataService',
+	'$ionicLoading',
+	function($rootScope, $scope, $state, $stateParams, config, utils, loginModel, localStorageService, userDataService,
+		$ionicLoading) {
+
+		$rootScope.user_login = false;
+		// check user's key and verify user is loggedin or not
+		$rootScope.isUserLogin = function(callback) {
+			var _isLogin = false;
+			if (localStorageService.get('key_id') != undefined && localStorageService.get('key_id') != null
+				&& localStorageService.get('key_id') != "") {
+
+				if (userDataService.isUserDataSet()) {
+					_isLogin = true;
+					$rootScope.user_login = true;
+					if (callback && typeof callback == 'function') {
+						callback(_isLogin);
+					}
+				} else {
+					var handshakePromose = loginModel.handshake();
+					handshakePromose.then(function(JsonData) {
+						if (JsonData.status) {
+							userDataService.setUserSignupData(JsonData.data);
+							utils.debug("handshake-data: ");
+							utils.debug(JsonData.data);
+							_isLogin = true;
+							$rootScope.user_login = true;
+							if (callback && typeof callback == 'function') {
+								callback(_isLogin);
+							}
+						} else {
+							callback(_isLogin);
+						}
+					}, function(status) {
+						callback(_isLogin);
+					});
+				}
+			} else {
+				if (callback && typeof callback == 'function') {
+					callback(_isLogin);
+				}
+			}
+		};
+
+		// logout user and redirect to login screen
+		$rootScope.logout = function() {
+
+			userDataService.clearUserSignupData();
+			localStorageService.clearAll();
+			// redirect to login
+			$state.go('tabs.start');
+
+		};
+
+		$rootScope.supporter_card = function() {
+			if(localStorageService.get('supporter_access_token')){
+				localStorageService.set('access_token', localStorageService.get('supporter_access_token'));
+				$state.go('tabs.card');
+			}else{
+				alert('You do not have any activated virtual card');
+			}
+		};
+		$rootScope.go = function(state) {
+			// redirect to login
+			$state.go(state);
+		};
+
+		$rootScope.show_spinner = function() {
+			$ionicLoading.show({
+				template : '<ion-spinner icon="circles"></ion-spinner>'
+			});
+		};
+
+		$rootScope.hide_spinner = function() {
+			$ionicLoading.hide();
+			$rootScope.laoding = false;
+		};
+
+		$rootScope.fix_enter_key = function() {
+			utils.debug('1');
+
+			$(document).keypress(function(e) {
+				if (e.which == 13) {
+					utils.debug('You pressed enter!');
+					cordova.plugins.Keyboard.close();
+				}
+			});
+		};
+
+		$rootScope.internetMsgShown = false;
+		$rootScope.checkInternetConnectivity = function() {
+			if ($rootScope.internetMsgShown == false) {
+				$rootScope.internetMsgShown = true;
+				$rootScope.hide_spinner();
+
+				$scope.modaldata = {
+					title : "Network Error",
+					body : "Sorry, you're not connected to the internet."
+				};
+				popupTimer.show($scope, function() {
+
+				}, 5000);
+			}
+		};
+
+		$rootScope.openUrl = function(urlString) {
+			// urlString = encodeURI(urlString);
+			if (utils.is_ios()) {
+				window.open(encodeURI(urlString), '_system', 'location=yes');
+				// $window.open(urlString, '_system');
+				// window.open(urlString, '_blank', 'location=yes')
+				// window.plugins.childBrowser.openExternal(urlString);
+			} else if (utils.is_mobile_ua()) {
+				navigator.app.loadUrl(urlString, {
+					openExternal : true
+				});
+			} else {
+				$window.open(urlString, '_system');
+			}
+		};
+
+	} ]);
+
 starter.controller('SignupCtrl', [
 	"$rootScope",
 	'$scope',
@@ -3297,187 +3478,6 @@ starter.controller('SplashCtrl', [ '$scope', '$rootScope', '$state', '$statePara
 
 
 	} ]);
-starter.controller('StartCtrl', [
-	'$rootScope',
-	'$scope',
-	'$state',
-	'$stateParams',
-	'config',
-	'utils',
-	'fundModel',
-	'loginModel',
-	'userDataService',
-	'localStorageService',
-	'popupTimer',
-	'$filter',
-	function($rootScope, $scope, $state, $stateParams, config, utils, fundModel, loginModel, userDataService,
-		localStorageService, popupTimer, $filter) {
-		$scope.view_title = "My FundRaising";
-		$scope.hide_back_btn = true;
-		$scope.orgs = null;
-		$scope.data = {};
-		$scope.data.query = "";
-		$rootScope.show_spinner();
-
-		var _orgPromise = fundModel.get_organizations();
-
-		_orgPromise.then(function(JsonData) {
-			$rootScope.hide_spinner();
-			utils.debug('JsonData recieved');
-			utils.debug(JSON.stringify(JsonData));
-			if (JsonData.data.success) {
-				$scope.orgs = JsonData.data.profile;
-				$scope.filteredOrgs = $filter('exactMatch')($scope.orgs, $scope.data.query);
-			}
-		}, function(status) {
-			$rootScope.hide_spinner();
-		});
-
-		$scope.org_select = function(org) {
-			console.log(org);
-			console.log('Start: line#40');
-			userDataService.setOrg(org);
-			/*$state.go('tabs.welcome', {}, {reload: true});*/
-			$state.transitionTo('tabs.welcome', $stateParams, {
-				reload: true,
-				inherit: false,
-				notify: true
-			});
-
-
-		};
-
-		$scope.$watch('data.query', function() {
-			console.log($scope.data.query);
-			if ($scope.data.query == "")
-				return;
-			$scope.filteredOrgs = $filter('exactMatch')($scope.orgs, $scope.data.query);
-		});
-
-	} ]);
-
-starter.filter('exactMatch', function() {
-	return function(words, pattern) {
-		var result = [];
-		words.forEach(function(word) {
-			// console.log('hh');
-			if (word.organisation_name.toLowerCase().substring(0, pattern.length) === pattern.toLowerCase()) {
-				result.push(word);
-			}
-		});
-		return result;
-	}
-});
-
-starter.controller('SupporterCardCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', 'config', 'userDataService', 'utils',
-	'localStorageService', 'loginModel','cardModel',
-	function($scope, $rootScope, $state, $stateParams, config, userDataService, utils, localStorageService, loginModel, cardModel) {
-		$scope.view_title = "Supporter";
-		$scope.hide_back_btn = true;
-
-		var _tokenPromise = cardModel.virtual_card(localStorageService.get('access_token'));
-		utils.debug(_tokenPromise);
-		_tokenPromise.then(function(JsonData) {
-			$rootScope.hide_spinner();
-			utils.debug(JsonData);
-			if (JsonData.success) {
-
-				utils.debug('payment verification done');
-				var discount_data = {};
-				discount_data.code = JsonData.code;
-				discount_data.organization = JsonData.organisation;
-				userDataService.set_discount_data(discount_data);
-				//$state.go('tabs.card');
-				$scope.org = userDataService.getOrg();
-				$scope.discount_data = userDataService.get_discount_data();
-				 // console.log($scope.discount_data);
-
-				 if ($scope.discount_data.organization.organisation_logo == "") {
-					 $scope.discount_data.organization.organisation_logo = "img/logo.png";
-				 }
-				$rootScope.hide_spinner();
-				document.addEventListener("backbutton", function(){
-					navigator.app.exitApp();
-				}, false);
-
-
-				//return;
-			} else {
-				utils.debug('payment errror');
-				show_error(JsonData.message);
-				$state.go('tabs.start');
-				return;
-			}
-		}, function(status) {
-			$rootScope.hide_spinner();
-			utils.debug(status);
-		});
-
-		/*$scope.org = userDataService.getOrg();
-		$scope.discount_data = userDataService.get_discount_data();
-		// console.log($scope.discount_data);
-
-		if ($scope.discount_data.organization.organisation_logo == "") {
-			$scope.discount_data.organization.organisation_logo = "img/logo.png";
-		}*/
-		$rootScope.logout = function() {
-
-			userDataService.clearUserSignupData();
-			localStorageService.clearAll();
-			// redirect to login
-			$state.go('tabs.start');
-
-		};
-
-		$rootScope.login = function() {
-			localStorageService.set('supporter_access_token', localStorageService.get('access_token'));
-			$state.go('tabs.login');
-
-		};
-
-		$rootScope.home = function() {
-			$state.go('tabs.supporter_home');
-		};
-
-		$rootScope.merchants = function() {
-			$state.go('tabs.merchants');
-		};
-
-	} ]);
-
-starter.controller('SupporterHomeCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', 'config', 'userDataService', 'utils',
-	'localStorageService', 'loginModel',
-	function($scope, $rootScope, $state, $stateParams, config, userDataService, utils, localStorageService, loginModel) {
-		$scope.view_title = "Supporter";
-		$scope.hide_back_btn = false;
-		$scope.org = userDataService.getOrg();
-
-		$scope.purchase_click = function() {
-			console.log('purchase it');
-			$state.go('tabs.payment');
-		};
-
-		$scope.purchase_click = function() {
-			console.log('purchase it');
-			$state.go('tabs.payment');
-		};
-
-		$scope.register_supporter = function() {
-			//console.log('login/signup it');
-			$state.go('tabs.signup');
-		};
-
-		$scope.merchants_view = function() {
-			$state.go('tabs.merchants');
-		};
-
-		$scope.cash_click = function() {
-			console.log('cash clicked');
-			$state.go('tabs.payment_cash');
-		};
-
-	} ]);
-
 starter.controller('WelcomeCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', 'config', 'userDataService', 'utils',
 	'localStorageService', 'loginModel',
 	function($scope, $rootScope, $state, $stateParams, config, userDataService, utils, localStorageService, loginModel) {

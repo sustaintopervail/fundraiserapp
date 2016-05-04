@@ -75,6 +75,15 @@
 			//StatusBar.hide();
 		}
 		document.addEventListener("backbutton", onBackKeyDown, false);
+
+		if (AndroidFullScreen) {
+			//alert('immersive');
+			AndroidFullScreen.immersiveMode(function() {
+				//alert('success')
+			}, function() {
+				//alert('fail')
+			});
+		}
 	}
 	document.addEventListener('deviceready', onDeviceReady, true);
 </script>

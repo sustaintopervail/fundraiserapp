@@ -1,15 +1,15 @@
 {
-  "name": "PrizeBond",
+  "name": "FundRaising",
   "version": "1.0.0",
-  "description": "Prizebond Project",
+  "description": "FundRaising Project",
   "dependencies": {
-    "gulp": "*",
+    "gulp": "^3.9.1",
     "gulp-concat": "*",
-    "gulp-install": "*",
-    "gulp-minify-css": "*",
+    "gulp-install": "^0.6.0",
+    "gulp-minify-css": "^1.2.4",
     "gulp-rename": "*",
-    "node-sass": "*",
-    "gulp-sass": "*"
+    "gulp-sass": "^2.3.0-beta.1",
+    "node-sass": "^3.5.0-beta.1"
   },
   "devDependencies": {
     "bower": "*",
@@ -22,6 +22,31 @@
     "shelljs": "*"
   },
   "cordovaPlugins": [
-    "com.paypal.cordova.mobilesdk"
+    "cordova-sms-plugin",
+    "cordova-plugin-console",
+    "cordova-plugin-device",
+    "cordova-plugin-inappbrowser",
+    "cordova-plugin-splashscreen",
+    "cordova-plugin-statusbar",
+    "cordova-plugin-fullscreen",
+    "ionic-plugin-keyboard",
+    "cordova-plugin-whitelist"
+  ],
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://imhassan@bitbucket.org/imhassan/fund_raising.git/"
+  },
+  "author": "",
+  "license": "ISC",
+  "cordovaPlatforms": [
+    {
+      "platform": "android",
+      "version": "",
+      "locator": "android"
+    }
   ]
 }
