@@ -18,6 +18,9 @@ starter.controller('MerchantsCtrl',
 
 			var _org = userDataService.getOrg();
 			$scope.sms = (_org) ? true : false;
+			var acess_token = localStorageService.get('access_token');
+			$scope.is_vc = (acess_token && acess_token != '') ? true : false;
+
 			$rootScope.show_spinner();
 			var _orgPromise = fundModel.get_merchants(_org.id);
 
@@ -36,10 +39,14 @@ starter.controller('MerchantsCtrl',
 				console.log(org);
 				userDataService.setOrg(org);
 				$state.go('tabs.welcome');
-			}
+			};
 
 			$scope.triggerCall = function(number){
 				document.location.href = 'tel:' + number
-			}
+			};
+
+			$scope.restaurantOffer = function(number){
+				$state.go('tabs.restaurant_payment');
+			};
 
 		} ]);

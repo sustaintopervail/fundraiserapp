@@ -1,5 +1,22 @@
 <ion-view cache-view="false" view-title="{{view_title}}" hide-back-button="{{hide_back_btn}}"> <ion-content>
 <ul class="list prize_list" style="margin-top: 10px !important;">
+	<li class='item'>
+		<strong style="color: #000 !important; font-weight: bolder !important; font-size: 16px !important;">Restaurant.com</strong>
+		<p>Best Deal, Every Meal</p>
+		<p>
+			<ul class="list restaurant_list" style="list-style:decimal">
+				<li style="border:none !important;">$10 voucher for $3</li>
+				<li style="border:none !important;;">$25 voucher for $6</li>
+				<li style="border:none !important;;">$50 voucher for $15</li>
+			</ul>
+			Browse deals at restaurants near you<br />
+			<a href="#" onclick="window.open('https://www.restaurant.com', '_system', 'location=no'); return false;">Checkout Restaurant.com Offers</a>
+
+			<button ng-if="is_vc" class="button-full btn btn_yellow" style="width: 250px;margin: 0 auto;" ng-click="restaurantOffer()">Get Offer</button>
+		</p>
+		<!--<p style="color: #FF69B4 !important;">Offer: {{mrg.offer}}</p>
+		<p>Approved by: {{mrg.owner}}</p>-->
+	</li>
 	<li class='item' ng-repeat="mrg in merchants">
 		<strong style="color: #000 !important; font-weight: bolder !important; font-size: 16px !important;">{{mrg.merchant_name}}</strong>
 		<p>Address: {{mrg.address}}</p>

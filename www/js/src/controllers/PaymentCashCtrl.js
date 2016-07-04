@@ -99,6 +99,7 @@ starter.controller('PaymentCashCtrl', [
 				last_name : $scope.formData.last_name,
 				username : $scope.formData.email,
 				cell_no : $scope.formData.cell_no,
+				login_type : 'supporter',
 				password : $scope.formData.cell_no,
 				new_password : $scope.formData.cell_no,
 				password_confirm : $scope.formData.cell_no,
@@ -130,6 +131,7 @@ starter.controller('PaymentCashCtrl', [
 							cell_no : $scope.formData.cell_no,
 							code : $scope.formData.code,
 							org_id : $scope.org.id,
+							login_type : 'supporter',
 							access_token : localStorageService.get('access_token')
 						};
 
