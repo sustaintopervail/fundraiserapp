@@ -90,6 +90,19 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		});
 		return deffered.promise;
 	};
+	var do_restaurant_payment = function(data) {
+		var deffered = $q.defer();
+		$http({
+			method : 'POST',
+			url : config.apiUrl + "codeRest/restRestaurantWePayCheckout",
+			data : $.param(data)
+		}).success(function(data, status, headers, config) {
+			deffered.resolve(data);
+		}).error(function(data, status, headers, config) {
+			deffered.reject(status);
+		});
+		return deffered.promise;
+	};
 
 	var cash_payment = function(data) {
 		var deffered = $q.defer();
@@ -122,13 +135,32 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		return deffered.promise;
 	};
 
+	var get_organisation = function(organisation_id) {
+		var deffered = $q.defer();
+		$http({
+			method : 'GET',
+			url : config.apiUrl + "organisationRest/restVerify",
+			data : {},
+			params : {
+				organisation_id : organisation_id
+			}
+		}).success(function(data, status, headers, config) {
+			deffered.resolve(data);
+		}).error(function(data, status, headers, config) {
+			deffered.reject(status);
+		});
+		return deffered.promise;
+	};
+
 	return {
 		saveToken : saveToken,
 		save_paypal : save_paypal,
 		card_details : card_details,
 		client_token : client_token,
 		do_payment : do_payment,
+		do_restaurant_payment : do_restaurant_payment,
 		cash_payment : cash_payment,
-		virtual_card : virtual_card
+		virtual_card : virtual_card,
+		get_organisation : get_organisation
 	}
 } ]);

@@ -29,7 +29,8 @@ starter.controller('SplashCtrl', [ '$scope', '$rootScope', '$state', '$statePara
 					return;
 				} else {
 					utils.debug('payment errror');
-					show_error(JsonData.message);
+					$rootScope.hide_spinner();
+					//show_error(JsonData.message);
                     $state.go('tabs.start');
                     return;
 				}

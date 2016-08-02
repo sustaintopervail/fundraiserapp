@@ -1,0 +1,30 @@
+<ion-view cache-view="false" view-title="{{view_title}}" hide-back-button="{{hide_back_btn}}"> <ion-content>
+	<h1>Restaurant.com's Voucher Payment</h1>
+	<div class="list list-inset formStyle">
+		<label class="item item-input" style="height: 55px !important;line-height: 55px !important;padding-left:10px">
+			<select ng-model="formData.amount" name="amount" style="width: 100% !important; height: 55px !important;line-height: 55px !important;border:none;">
+				<option value="" style="width: 100%;">Choose a deal</option>
+				<option value="3" style="width: 100%;">$10 voucher for $3</option>
+				<option value="6" style="width: 100%;">$25 voucher for $6</option>
+				<option value="15" style="width: 100%;">$50 voucher for $15</option>
+			</select>
+		</label>
+		<small style="color: #fff;font-size:11px;display:block;text-align: left;padding-left:11px;">CC # must have spaces. Ex. 1111 2222 3333 4444</small>
+		<label class="item item-input">
+			<input type="text" name="credit_card" ng-model="formData.number" payments-validate="card" payments-format="card"
+				placeholder="Card Number" ng-minlength="19" ng-maxlength="19" onkeypress="if(this.value.length > 18){event.preventDefault();}"  /> <!--onblur="if(this.value.length < 19){alert('Credit card number cannot be less than 16 digits');}"-->
+		</label>
+		<small style="color: #fff;font-size:11px;display:block;text-align: left;padding-left:11px;">MM/YY</small>
+		<label class="item item-input">
+			<input type="text" name="expiry" ng-model="formData.expiry" payments-validate="expiry" payments-format="expiry"
+				placeholder="MM/YY" />
+		</label>
+		<label class="item item-input">
+			<input type="text" name="cvc" ng-model="formData.cvv" payments-validate="cvc" payments-format="cvc" placeholder="CVV"  ng-minlength="3" ng-maxlength="4"/>
+		</label>
+		<label class="item item-input">
+			<input type="text" name="zipcode" ng-model="formData.zipcode" placeholder="Zip Code"  ng-minlength="5" ng-maxlength="5"  onkeypress="if(this.value.length > 4){event.preventDefault();});" />
+		</label>
+	</div>
+	<button class="button-full btn btn_yellow"  style="margin:0 auto;width: 150px;" ng-click="submitCCForm()">Pay</button>
+</ion-content> </ion-view>

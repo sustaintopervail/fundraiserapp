@@ -40,6 +40,7 @@ starter.controller('SignupCtrl', [
 					new_password : $scope.signup.cell_no,
 					password_confirm : $scope.signup.cell_no,
 					org_id : _org.id,
+					login_type : 'supporter',
 					client_id : "1234567890",
 					grant_type : "password",
 					redirect_uri : ""

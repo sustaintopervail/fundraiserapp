@@ -8,8 +8,11 @@
 		<div>Cost: {{org.cost}}</div>
 	</h2>
 
-	<button class="button button-full btn_wepay form_button" ng-click="register_supporter()"><img style="width:150px;" src="https://go.wepay.com/frontend/images/wepay-logo.svg" /></button>
-	<br/>
+	<button class="button button-full btn_wepay form_button" ng-click="register_supporter()" style="text-align: center">
+		<img style="padding-right:3px;padding-bottom:3px;" src="http://myfundraiserapp.com/addons/shared_addons/themes/prochista/img/cc_images.png">
+
+	</button>
+	
 	<br/><span style="color:#fff !important;font-size:30px;font-weight: bolder;">OR</span><br/>
 	<p><small style="color:#fff;">If  a Supporter is sharing a code with you, please proceed by choosing the Cash option</small></p>
 	<button class="button button-full btn_cash form_button" ng-click="cash_click()">Cash</button>

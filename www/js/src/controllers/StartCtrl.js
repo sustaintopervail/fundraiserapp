@@ -34,6 +34,10 @@ starter.controller('StartCtrl', [
 			$rootScope.hide_spinner();
 		});
 
+		$scope.privacyPolicy=function(){
+			$state.go('tabs.privacy_policy');
+		};
+
 		$scope.org_select = function(org) {
 			console.log(org);
 			console.log('Start: line#40');

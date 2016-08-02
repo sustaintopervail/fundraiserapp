@@ -159,6 +159,26 @@ starter.run(function($ionicPlatform) {
 		}
 	})
 
+	.state('tabs.restaurant_payment', {
+		url : "/restaurant_payment",
+		views : {
+			'public-view' : {
+				templateUrl : "restaurant_payment.html",
+				controller : 'RestaurantPaymentCtrl'
+			}
+		}
+	})
+
+	.state('tabs.privacy_policy', {
+		url : "/privacy_policy",
+		views : {
+			'public-view' : {
+				templateUrl : "privacy_policy.html",
+				controller : 'PrivacyPolicyCtrl'
+			}
+		}
+	})
+
 	.state('tabs.card', {
 		url : "/card",
 		views : {

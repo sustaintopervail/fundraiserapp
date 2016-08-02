@@ -24,4 +24,8 @@
 	<li class='item' ng-if="data.query" ng-repeat="org in filteredOrgs" ng-click="org_select(org);">{{org.organisation_name}},
 		{{org.organisation_city}} ({{org.organisation_state}})</li>
 </div>
-</ion-content> </ion-view>
+</ion-content>
+	<ion-footer-bar align-title="left" class="bar-assertive">
+		<div  style="text-align: center;font-size:11px;">By using MyFundraiserApp you have agreed to the terms below and you have reviewed the <a href="#" ng-click="privacyPolicy();">Terms of Use</a></div>
+	</ion-footer-bar>
+</ion-view>

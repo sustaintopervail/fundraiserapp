@@ -25,6 +25,19 @@ starter.controller('codeCtrl', [
 			$scope.error = false;
 		}
 
+		var supporter = localStorageService.get('supporter_access_token');
+		//alert(supporter);
+		$scope.hide_logout = (supporter && supporter != '') ? false : true;
+		//alert(hide_logout);
+		$scope.hide_card = (supporter && supporter != '') ? true : false;
 
+		$rootScope.supporter_card = function() {
+			if(localStorageService.get('supporter_access_token')){
+				localStorageService.set('access_token', localStorageService.get('supporter_access_token'));
+				$state.go('tabs.card');
+			}else{
+				alert('You do not have any activated virtual card');
+			}
+		};
 
-	} ]);
+	}]);

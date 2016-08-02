@@ -11,7 +11,6 @@
 			</ul>
 			Browse deals at restaurants near you<br />
 			<a href="#" onclick="window.open('https://www.restaurant.com', '_system', 'location=no'); return false;">Checkout Restaurant.com Offers</a>
-
 			<button ng-if="is_vc" class="button-full btn btn_yellow" style="width: 250px;margin: 0 auto;" ng-click="restaurantOffer()">Get Offer</button>
 		</p>
 		<!--<p style="color: #FF69B4 !important;">Offer: {{mrg.offer}}</p>
@@ -25,6 +24,7 @@
 			<a ng-click="triggerCall('{{mrg.business_phone}}')" href="#">{{mrg.business_phone}}</a>
 		</p>
 		<p style="color: #FF69B4 !important;">Offer: {{mrg.offer}}</p>
+		<p style="color: #FF69B4 !important;" ng-if="is_vc">{{mrg.code_offer}}</p>
 		<p>Approved by: {{mrg.owner}}</p>
 	</li>
 </ul>

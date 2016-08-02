@@ -22,6 +22,7 @@ starter.controller('LoginCtrl', [
 			// password : "test123",
 
 			username : "",
+			login_type : "seller",
 			email : "",
 			password : "",
 			client_id : "1234567890",

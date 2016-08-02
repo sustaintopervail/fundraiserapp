@@ -75,15 +75,6 @@
 			//StatusBar.hide();
 		}
 		document.addEventListener("backbutton", onBackKeyDown, false);
-
-		if (AndroidFullScreen) {
-			//alert('immersive');
-			AndroidFullScreen.immersiveMode(function() {
-				//alert('success')
-			}, function() {
-				//alert('fail')
-			});
-		}
 	}
 	document.addEventListener('deviceready', onDeviceReady, true);
 </script>
@@ -91,7 +82,6 @@
 </head>
 
 <body ng-app="starter" ng-controller="MainCtrl">
-
 	<ion-nav-view></ion-nav-view>
 </body>
 </html>
