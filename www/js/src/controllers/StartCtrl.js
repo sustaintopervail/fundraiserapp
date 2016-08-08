@@ -13,7 +13,7 @@ starter.controller('StartCtrl', [
 	'$filter',
 	function($rootScope, $scope, $state, $stateParams, config, utils, fundModel, loginModel, userDataService,
 		localStorageService, popupTimer, $filter) {
-		$scope.view_title = "My FundRaising";
+		$scope.view_title = "MyFundRaiserApp";
 		$scope.hide_back_btn = true;
 		$scope.orgs = null;
 		$scope.data = {};
