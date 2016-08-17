@@ -106,8 +106,9 @@ starter.controller('RestaurantPaymentCtrl', [
 					$rootScope.hide_spinner();
 					show_error(data.error_description);
 				} else {
+					console.log(data);
 					$scope.formData.credit_card_id = data.credit_card_id;
-					make_payment();
+					make_payment(data.credit_card_id);
 				}
 			});
 		};
@@ -121,6 +122,7 @@ starter.controller('RestaurantPaymentCtrl', [
 			WePay.set_endpoint(config.wepay_endpoint);
 			// change to "production" when live
 			console.log(WePay);
+			alert(localStorageService.get('name'));
 			response = WePay.credit_card.create({
 				"client_id" : config.wepay_client_id,
 				"user_name" : localStorageService.get('name'),
@@ -135,8 +137,11 @@ starter.controller('RestaurantPaymentCtrl', [
 					"zip" : udata.zipcode
 				}
 			}, cb);
+			//alert(response);
+			console.log(response);
 		};
-		var make_payment = function() {
+
+		var make_payment = function(credit_card_id) {
 			utils.debug("make_payment....");
 			var paymentData = {
 				name : localStorageService.get('name'),
@@ -146,6 +151,7 @@ starter.controller('RestaurantPaymentCtrl', [
 				email : localStorageService.get('email'),
 				access_token : localStorageService.get('access_token'),
 				credit_card_id : $scope.formData.credit_card_id,
+				credit_card_id : credit_card_id,
 				amount : $scope.formData.amount,
 				org_id : $scope.org.id
 			};

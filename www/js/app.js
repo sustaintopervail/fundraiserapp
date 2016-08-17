@@ -957,58 +957,60 @@ g=h[0],n=h[1],b=h[2],d=h[3],c=h[4],j=h[5],l=h[6],h=h[7],q=g.high,m=g.low,r=n.hig
 S+L;l.high=ca+V+(S>>>0<L>>>0?1:0);T=h.low=T+M;h.high=da+X+(T>>>0<M>>>0?1:0)},_doFinalize:function(){var a=this._data,f=a.words,h=8*this._nDataBytes,g=8*a.sigBytes;f[g>>>5]|=128<<24-g%32;f[(g+128>>>10<<5)+30]=Math.floor(h/4294967296);f[(g+128>>>10<<5)+31]=h;a.sigBytes=4*f.length;this._process();return this._hash.toX32()},clone:function(){var a=r.clone.call(this);a._hash=this._hash.clone();return a},blockSize:32});m.SHA512=r._createHelper(f);m.HmacSHA512=r._createHmacHelper(f)})();
 
 var WePay=WePay||{};WePay.call_queue=[];WePay.set_endpoint=function(domain){switch(domain){case"stage":WePay.endpoint="https://stage.wepayapi.com";WePay.domain="https://stage.wepay.com";break;case"production":WePay.endpoint="https://www.wepayapi.com";WePay.domain="https://www.wepay.com";break;case"vm":WePay.endpoint="http://vm.wepay.com";WePay.domain="http://vm.wepay.com";break;default:return{"error":"invalid_request","error_description":"that is an invalid domain: please use stage or production"};}
-if(!WePay.messenger&&document.readyState==="complete"){WePay.setup_messenger();}};WePay.tags=WePay.tags||{'device_token':0,'uuid':function(){var s=[];var hexDigits="0123456789abcdef";for(var i=0;i<36;i++){s[i]=hexDigits.substr(Math.floor(Math.random()*0x10),1);}
-s[14]="4";s[19]=hexDigits.substr((s[19]&0x3)|0x8,1);s[8]=s[13]=s[18]=s[23]="-";return s.join("");},'generate':function(session_id){var div=document.createElement("div");var div_div=document.createElement("div");var div_img=document.createElement("img");var div_script=document.createElement("script");var div_object=document.createElement("object");var div_object_param=document.createElement("param");var div_object_div=document.createElement("div");div.id="WePay-tags";div.style.position="absolute";div.style.left="-1000px";div_div.style.background="url('https://t.wepay.com/fp/clear.png?org_id=ncwzrc4k&session_id="+session_id+"&m=1')";div_img.src="https://t.wepay.com/fp/clear.png?org_id=ncwzrc4k&session_id="+session_id+"&m=2";div_img.alt="";div_script.src="https://t.wepay.com/fp/check.js?org_id=ncwzrc4k&session_id="+session_id;div_script.type="text/javascript";div_script.async="true";div_object.type="application/x-shockwave-flash";div_object.data="https://t.wepay.com/fp/fp.swf?org_id=ncwzrc4k&session_id="+session_id;div_object.width=1;div_object.height=1;div_object.id="obj_id";div_object_param.name="movie";div_object_param.value="https://t.wepay.com/fp/fp.swf?org_id=ncwzrc4k&session_id="+session_id;div_object.appendChild(div_object_param);div_object.appendChild(div_object_div);div.appendChild(div_div);div.appendChild(div_img);div.appendChild(div_script);div.appendChild(div_object);return div;},'enable_device':function(session_id){this.device_token=session_id;},'insert':function(session_id){session_id=session_id||this.device_token||WePay.tags.uuid();if(!document.getElementById('WePay-tags')){document.body.appendChild(WePay.tags.generate(session_id));}
-return session_id;}};WePay.setup_messenger=function(){if(!WePay.messenger&&WePay.endpoint){WePay.messenger=document.createElement('iframe');WePay.messenger.loaded=false;WePay.messenger.id="WePay-Messenger";WePay.messenger.src=WePay.endpoint+"/api/messenger";WePay.messenger.setAttribute("style","display:none; width:1px; height:1px;");WePay.messenger.setAttribute("width","0");WePay.messenger.setAttribute("height","0");document.body.appendChild(WePay.messenger);if(!document.getElementById(WePay.messenger.id)){WePay.messenger=null;}
-device_id=WePay.tags.insert();setTimeout(WePay.tags.enable_device.bind(WePay.tags,device_id),5000);}};try{window.attachEvent("onload",WePay.setup_messenger);}catch(exception){window.addEventListener("load",WePay.setup_messenger,false);}
+    if(!WePay.messenger&&document.readyState==="complete"){WePay.setup_messenger();}};WePay.tags=WePay.tags||{'device_token':0,'uuid':function(){var s=[];var hexDigits="0123456789abcdef";for(var i=0;i<36;i++){s[i]=hexDigits.substr(Math.floor(Math.random()*0x10),1);}
+        s[14]="4";s[19]=hexDigits.substr((s[19]&0x3)|0x8,1);s[8]=s[13]=s[18]=s[23]="-";return s.join("");},'generate':function(session_id){var div=document.createElement("div");var div_div=document.createElement("div");var div_img=document.createElement("img");var div_script=document.createElement("script");var div_object=document.createElement("object");var div_object_param=document.createElement("param");var div_object_div=document.createElement("div");div.id="WePay-tags";div.style.position="absolute";div.style.left="-1000px";div_div.style.background="url('https://t.wepay.com/fp/clear.png?org_id=ncwzrc4k&session_id="+session_id+"&m=1')";div_img.src="https://t.wepay.com/fp/clear.png?org_id=ncwzrc4k&session_id="+session_id+"&m=2";div_img.alt="";div_script.src="https://t.wepay.com/fp/check.js?org_id=ncwzrc4k&session_id="+session_id;div_script.type="text/javascript";div_script.async="true";div_object.type="application/x-shockwave-flash";div_object.data="https://t.wepay.com/fp/fp.swf?org_id=ncwzrc4k&session_id="+session_id;div_object.width=1;div_object.height=1;div_object.id="obj_id";div_object_param.name="movie";div_object_param.value="https://t.wepay.com/fp/fp.swf?org_id=ncwzrc4k&session_id="+session_id;div_object.appendChild(div_object_param);div_object.appendChild(div_object_div);div.appendChild(div_div);div.appendChild(div_img);div.appendChild(div_script);div.appendChild(div_object);return div;},'enable_device':function(session_id){this.device_token=session_id;},'insert':function(session_id){session_id=session_id||this.device_token||WePay.tags.uuid();if(!document.getElementById('WePay-tags')){document.body.appendChild(WePay.tags.generate(session_id));}
+        return session_id;}};WePay.setup_messenger=function(){if(!WePay.messenger&&WePay.endpoint){WePay.messenger=document.createElement('iframe');WePay.messenger.loaded=false;WePay.messenger.id="WePay-Messenger";WePay.messenger.src=WePay.endpoint+"/api/messenger";WePay.messenger.setAttribute("style","display:none; width:1px; height:1px;");WePay.messenger.setAttribute("width","0");WePay.messenger.setAttribute("height","0");document.body.appendChild(WePay.messenger);if(!document.getElementById(WePay.messenger.id)){WePay.messenger=null;}
+    device_id=WePay.tags.insert();setTimeout(WePay.tags.enable_device.bind(WePay.tags,device_id),5000);}};try{window.attachEvent("onload",WePay.setup_messenger);}catch(exception){window.addEventListener("load",WePay.setup_messenger,false);}
 WePay.messenger_timeout=false;WePay.handle_messenger_timeout=function(e){WePay.messenger_timeout=false;if(WePay.messenger&&WePay.messenger.loaded){return;}
-for(var i=0;i<WePay.call_queue.length;i++){var call=WePay.call_queue[i];WePay.trigger(call.callback_name,{"error":"timeout","error_description":"Timeout on WePay API call handler initialization"});}}
+    for(var i=0;i<WePay.call_queue.length;i++){var call=WePay.call_queue[i];WePay.trigger(call.callback_name,{"error":"timeout","error_description":"Timeout on WePay API call handler initialization"});}}
 WePay.check_params=function(params,expected_params){for(required in WePay.credit_card.expected_params){if(typeof expected_params[required]=="object"){if(typeof params[required]=="object"){var val=WePay.check_params(params[required],expected_params[required]);if(val!==true){return val;}}else{return{error:"invalid_request",error_description:"The "+required+" parameter expects an object: "+(typeof params[required])+" provided."}}}else if(typeof expected_params[required]=="boolean"){if(expected_params[required]&&!params[required]){return{error:"invalid_request",error_description:"The "+required+" parameter is required."}}}}
-for(param in params){if(typeof expected_params[param]=="undefined"){return{error:"invalid_request",error_description:"The "+param+" parameter is unexpected."}}}
-return true;};WePay.listen=WePay.listen||function(event_name,response_function){WePay.callback_events=WePay.callback_events||{};WePay.callback_events[event_name]=WePay.callback_events[event_name]||[];WePay.callback_events[event_name].push(response_function);};WePay.trigger=WePay.trigger||function(event_name,data){var callbacks=WePay.callback_events[event_name];if(callbacks){for(var i=0;i<callbacks.length;i++){var callback=callbacks[i];callback(data);}}};WePay.receiveMessage=WePay.receiveMessage||function(e){try{var data=WePay.JSON.parse(e.data);}catch(e){}
-if(data){WePay.trigger(data.wepay_message_type,data);}};WePay.listen("api_call_response",function(data){var callback=data.callback_function_name;WePay.trigger(callback,data.response);});WePay.listen("messenger_loaded",function(data){WePay.messenger.loaded=true;if(WePay.messenger_timeout){window.clearTimeout(WePay.messenger_timeout);}
-for(var i=0;i<WePay.call_queue.length;i++){var call=WePay.call_queue[i];WePay.call(call.path,call.parameters,call.callback_name);}
-WePay.call_queue=[];});if(!WePay.listening){if(window.addEventListener){window.addEventListener("message",WePay.receiveMessage,false);}else if(window.attachEvent){window.attachEvent("onmessage",WePay.receiveMessage,false);}
-WePay.listening=true;}
+    for(param in params){if(typeof expected_params[param]=="undefined"){return{error:"invalid_request",error_description:"The "+param+" parameter is unexpected."}}}
+    return true;};WePay.listen=WePay.listen||function(event_name,response_function){WePay.callback_events=WePay.callback_events||{};WePay.callback_events[event_name]=WePay.callback_events[event_name]||[];WePay.callback_events[event_name].push(response_function);};WePay.trigger=WePay.trigger||function(event_name,data){var callbacks=WePay.callback_events[event_name];if(callbacks){for(var i=0;i<callbacks.length;i++){var callback=callbacks[i];callback(data);}}};WePay.receiveMessage=WePay.receiveMessage||function(e){try{var data=WePay.JSON.parse(e.data);}catch(e){}
+        if(data){WePay.trigger(data.wepay_message_type,data);}};WePay.listen("api_call_response",function(data){var callback=data.callback_function_name;WePay.trigger(callback,data.response);});WePay.listen("messenger_loaded",function(data){WePay.messenger.loaded=true;if(WePay.messenger_timeout){window.clearTimeout(WePay.messenger_timeout);}
+    for(var i=0;i<WePay.call_queue.length;i++){var call=WePay.call_queue[i];WePay.call(call.path,call.parameters,call.callback_name);}
+    WePay.call_queue=[];});if(!WePay.listening){if(window.addEventListener){window.addEventListener("message",WePay.receiveMessage,false);}else if(window.attachEvent){window.attachEvent("onmessage",WePay.receiveMessage,false);}
+    WePay.listening=true;}
 WePay.call=function(call_path,arguments,callback_function_name){if(typeof window.postMessage=='undefined'){window.clearTimeout(WePay.messenger_timeout);WePay.messenger_timeout=false;WePay.trigger(callback_function_name,{"error":"browser","error_description":"This browser does not support postMessage which is required for tokenization."});}
-var data={"wepay_message_type":"api_call","wepay_call_path":call_path,"call_parameters":arguments,"callback_function_name":callback_function_name};if(WePay.messenger&&WePay.messenger.loaded){WePay.messenger.contentWindow.postMessage(WePay.JSON.stringify(data),"*");}else{WePay.call_queue.push({"path":call_path,"parameters":arguments,"callback_name":callback_function_name});if((!WePay.messenger||!WePay.messenger.loaded)&&!WePay.messenger_timeout){WePay.messenger_timeout=window.setTimeout(WePay.handle_messenger_timeout,30000);}}};WePay.credit_card=WePay.credit_card||{};WePay.credit_card.expected_params={'client_id':true,'user_name':true,'email':true,'reference_id':false,'cc_number':true,'cvv':true,'expiration_month':true,'expiration_year':true,'auto_update':false,'address':{'address1':false,'address2':false,'city':false,'state':false,'region':false,'zip':false,'postcode':false,'country':false},'device_token':false};WePay.credit_card.create=function(params,callback){var check=WePay.check_params(params,WePay.credit_card.expected_params);if(check.error){return check;}
-var name='wepay_callback_'+(new Date()).getTime()+"_"+Math.floor(Math.random()*1000);WePay.listen(name,callback);if(WePay.tags.device_token){params.device_token=WePay.tags.device_token;}
-WePay.call("/v2/credit_card/create",params,name);return true;};WePay.validate=function(param,value){switch(param){case"client_id":if(typeof value!="Number"||value%1!=0){return{"error":"invalid_parameter","error_description":"client_id must be a numeric value"};}
-break;case"user_name":if(!value.match(/^.+\s+.+$/)){return{"error":"invalid_parameter","error_description":"First and last name required"};}
-break;case"email":if(!value.match(/^.+@.+$/)||value.match(/^.+\s+.+$/)){return{"error":"invalid_parameter","error_description":"First and last name required"};}
-break;case"cc_number":if(!value.match(/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/)||!WePay.credit_card.luhn(value)){return{"error":"invalid_parameter","error_description":"Credit card number is invalid"};}
-break;case"cvv":if(!value.match(/^\d{3,4}$/)){return{"error":"invalid_parameter","error_description":"CVV is invalid"};}
-break;case"expiration_month":if(!value.match(/^\d{1,2}$/)||value>12||value<1){return{"error":"invalid_parameter","error_description":"Expiration month is invalid"};}
-break;case"expiration_year":if(!value.match(/^\d{4}$/)){return{"error":"invalid_parameter","error_description":"Expiration year is invalid"};}
-if(value<=(new Date()).getFullYear()){return{"error":"invalid_parameter","error_description":"Expiration year must be "+(new Date()).getFullYear()+" or greater"};}
-break;}
-return{"passed":true,"error":false,"error_description":false};};WePay.credit_card.luhn=function(value){var checksum=0;for(var i=value.length-1;i>=0;i-=2){checksum+=parseInt(value.charAt(i),10);}
-for(var i=value.length-2;i>=0;i-=2){var iVal=parseInt(value.charAt(i),10)*2;checksum+=iVal>=10?iVal-9:iVal;}
-return(checksum%10==0);};WePay.bank_account=WePay.bank_account||{};WePay.bank_account.expected_params={'client_id':true,'email':true};WePay.bank_account.create=function(params,callback){var check=WePay.check_params(params,WePay.bank_account.expected_params);if(check.error){return check;}
-window.open(WePay.domain+'/bankaccountpicker/index/'+params['client_id']+'/'+encodeURIComponent(params['email']),'bank_popup','height=690,width=379,left=0,top=0,resizable=0');window.addEventListener('message',function(event){if(event.data.indexOf('messenger_loaded')!==-1){return;}
-callback(event.data);});return true;};if(typeof JSON==='object'&&JSON.stringify){WePay.JSON={};WePay.JSON.stringify=JSON.stringify;WePay.JSON.parse=JSON.parse;}else{WePay.JSON={};WePay.JSON.parse=function(src){var filtered=src.replace(/\\["\\\/bfnrtu]/g,'@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']').replace(/(?:^|:|,)(?:\s*\[)+/g,'');if(/^[\],:{}\s]*$/.test(filtered)){return eval('('+src+')');}else{throw new SyntaxError('Error parsing JSON, source is not valid.');}}
-WePay.JSON.stringify=function(o){if(o===null){return'null';}
-var type=typeof o;if(type==='undefined'){return undefined;}
-if(type==='number'||type==='boolean'){return''+o;}
-if(type==='string'){return WePay.JSON.quote_string(o);}
-if(type==='object'){if(typeof o.toJSON==='function'){return WePay.JSON.stringify(o.toJSON());}
-if(o.constructor===Date){var month=o.getUTCMonth()+1,day=o.getUTCDate(),year=o.getUTCFullYear(),hours=o.getUTCHours(),minutes=o.getUTCMinutes(),seconds=o.getUTCSeconds(),milli=o.getUTCMilliseconds();if(month<10){month='0'+month;}
-if(day<10){day='0'+day;}
-if(hours<10){hours='0'+hours;}
-if(minutes<10){minutes='0'+minutes;}
-if(seconds<10){seconds='0'+seconds;}
-if(milli<100){milli='0'+milli;}
-if(milli<10){milli='0'+milli;}
-return'"'+year+'-'+month+'-'+day+'T'+
-hours+':'+minutes+':'+seconds+'.'+milli+'Z"';}
-if(o.constructor===Array){var ret=[];for(var i=0;i<o.length;i++){ret.push(WePay.JSON.stringify(o[i])||'null');}
-return'['+ret.join(',')+']';}
-var name,val,pairs=[];for(var k in o){type=typeof k;if(type==='number'){name='"'+k+'"';}else if(type==='string'){name=WePay.JSON.quote_string(k);}else{continue;}
-type=typeof o[k];if(type==='function'||type==='undefined'){continue;}
-val=WePay.JSON.stringify(o[k]);pairs.push(name+':'+val);}
-return'{'+pairs.join(',')+'}';}};WePay.JSON.quote_string=function(string){var escapeable=/["\\\x00-\x1f\x7f-\x9f]/g,meta={'\b':'\\b','\t':'\\t','\n':'\\n','\f':'\\f','\r':'\\r','"':'\\"','\\':'\\\\'};if(string.match(escapeable)){return'"'+string.replace(escapeable,function(a){var c=meta[a];if(typeof c==='string'){return c;}
-c=a.charCodeAt();return'\\u00'+Math.floor(c/16).toString(16)+(c%16).toString(16);})+'"';}
-return'"'+string+'"';};}
+    var data={"wepay_message_type":"api_call","wepay_call_path":call_path,"call_parameters":arguments,"callback_function_name":callback_function_name};if(WePay.messenger&&WePay.messenger.loaded){WePay.messenger.contentWindow.postMessage(WePay.JSON.stringify(data),"*");}else{WePay.call_queue.push({"path":call_path,"parameters":arguments,"callback_name":callback_function_name});if((!WePay.messenger||!WePay.messenger.loaded)&&!WePay.messenger_timeout){WePay.messenger_timeout=window.setTimeout(WePay.handle_messenger_timeout,30000);}}};WePay.credit_card=WePay.credit_card||{};WePay.credit_card.expected_params={'client_id':true,'user_name':true,'email':true,'reference_id':false,'cc_number':true,'cvv':true,'expiration_month':true,'expiration_year':true,'auto_update':false,'address':{'address1':false,'address2':false,'city':false,'state':false,'region':false,'zip':false,'postcode':false,'postal_code':false,'country':false},'device_token':false,'virtual_terminal':false};WePay.credit_card.create=function(params,callback){var check=WePay.check_params(params,WePay.credit_card.expected_params);if(check.error){return check;}
+    var name='wepay_callback_'+(new Date()).getTime()+"_"+Math.floor(Math.random()*1000);WePay.listen(name,callback);if(WePay.tags.device_token){params.device_token=WePay.tags.device_token;}
+    WePay.call("/v2/credit_card/create",params,name);return true;};WePay.validate=function(param,value){switch(param){case"client_id":if(typeof value!="Number"||value%1!=0){return{"error":"invalid_parameter","error_description":"client_id must be a numeric value"};}
+    break;case"user_name":if(!value.match(/^.+\s+.+$/)){return{"error":"invalid_parameter","error_description":"First and last name required"};}
+    break;case"email":if(!value.match(/^.+@.+$/)||value.match(/^.+\s+.+$/)){return{"error":"invalid_parameter","error_description":"First and last name required"};}
+    break;case"cc_number":if(!value.match(/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/)||!WePay.credit_card.luhn(value)){return{"error":"invalid_parameter","error_description":"Credit card number is invalid"};}
+    break;case"cvv":if(!value.match(/^\d{3,4}$/)){return{"error":"invalid_parameter","error_description":"CVV is invalid"};}
+    break;case"expiration_month":if(!value.match(/^\d{1,2}$/)||value>12||value<1){return{"error":"invalid_parameter","error_description":"Expiration month is invalid"};}
+    break;case"expiration_year":if(!value.match(/^\d{4}$/)){return{"error":"invalid_parameter","error_description":"Expiration year is invalid"};}
+    if(value<=(new Date()).getFullYear()){return{"error":"invalid_parameter","error_description":"Expiration year must be "+(new Date()).getFullYear()+" or greater"};}
+    break;}
+    return{"passed":true,"error":false,"error_description":false};};WePay.credit_card.luhn=function(value){var checksum=0;for(var i=value.length-1;i>=0;i-=2){checksum+=parseInt(value.charAt(i),10);}
+    for(var i=value.length-2;i>=0;i-=2){var iVal=parseInt(value.charAt(i),10)*2;checksum+=iVal>=10?iVal-9:iVal;}
+    return(checksum%10==0);};WePay.bank_account=WePay.bank_account||{};WePay.bank_account.expected_params={'client_id':true,'email':true,'options':false};WePay.bank_account.create=function(params,callback){var check=WePay.check_params(params,WePay.bank_account.expected_params);if(check.error){return check;}
+    var url=WePay.domain+'/bankaccountpicker/index/'+params['client_id']+'/'+encodeURIComponent(params['email']);if(params['options']){var options,query='';for(options in params['options']){if(params['options'].hasOwnProperty(options)){query+=encodeURIComponent(options)+'='+encodeURIComponent(params['options'][options])}}
+        url+='?'+query;}
+    window.open(url,'bank_popup','height=690,width=379,left=0,top=0,resizable=0');window.addEventListener('message',function(event){if(event.data.indexOf('messenger_loaded')!==-1){return;}
+        callback(event.data);});return true;};if(typeof JSON==='object'&&JSON.stringify){WePay.JSON={};WePay.JSON.stringify=JSON.stringify;WePay.JSON.parse=JSON.parse;}else{WePay.JSON={};WePay.JSON.parse=function(src){var filtered=src.replace(/\\["\\\/bfnrtu]/g,'@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,']').replace(/(?:^|:|,)(?:\s*\[)+/g,'');if(/^[\],:{}\s]*$/.test(filtered)){return eval('('+src+')');}else{throw new SyntaxError('Error parsing JSON, source is not valid.');}}
+    WePay.JSON.stringify=function(o){if(o===null){return'null';}
+        var type=typeof o;if(type==='undefined'){return undefined;}
+        if(type==='number'||type==='boolean'){return''+o;}
+        if(type==='string'){return WePay.JSON.quote_string(o);}
+        if(type==='object'){if(typeof o.toJSON==='function'){return WePay.JSON.stringify(o.toJSON());}
+            if(o.constructor===Date){var month=o.getUTCMonth()+1,day=o.getUTCDate(),year=o.getUTCFullYear(),hours=o.getUTCHours(),minutes=o.getUTCMinutes(),seconds=o.getUTCSeconds(),milli=o.getUTCMilliseconds();if(month<10){month='0'+month;}
+                if(day<10){day='0'+day;}
+                if(hours<10){hours='0'+hours;}
+                if(minutes<10){minutes='0'+minutes;}
+                if(seconds<10){seconds='0'+seconds;}
+                if(milli<100){milli='0'+milli;}
+                if(milli<10){milli='0'+milli;}
+                return'"'+year+'-'+month+'-'+day+'T'+
+                    hours+':'+minutes+':'+seconds+'.'+milli+'Z"';}
+            if(o.constructor===Array){var ret=[];for(var i=0;i<o.length;i++){ret.push(WePay.JSON.stringify(o[i])||'null');}
+                return'['+ret.join(',')+']';}
+            var name,val,pairs=[];for(var k in o){type=typeof k;if(type==='number'){name='"'+k+'"';}else if(type==='string'){name=WePay.JSON.quote_string(k);}else{continue;}
+                type=typeof o[k];if(type==='function'||type==='undefined'){continue;}
+                val=WePay.JSON.stringify(o[k]);pairs.push(name+':'+val);}
+            return'{'+pairs.join(',')+'}';}};WePay.JSON.quote_string=function(string){var escapeable=/["\\\x00-\x1f\x7f-\x9f]/g,meta={'\b':'\\b','\t':'\\t','\n':'\\n','\f':'\\f','\r':'\\r','"':'\\"','\\':'\\\\'};if(string.match(escapeable)){return'"'+string.replace(escapeable,function(a){var c=meta[a];if(typeof c==='string'){return c;}
+            c=a.charCodeAt();return'\\u00'+Math.floor(c/16).toString(16)+(c%16).toString(16);})+'"';}
+        return'"'+string+'"';};}
 (function() {
 /* Start angularLocalStorage */
 'use strict';
@@ -3293,8 +3295,9 @@ starter.controller('RestaurantPaymentCtrl', [
 					$rootScope.hide_spinner();
 					show_error(data.error_description);
 				} else {
+					console.log(data);
 					$scope.formData.credit_card_id = data.credit_card_id;
-					make_payment();
+					make_payment(data.credit_card_id);
 				}
 			});
 		};
@@ -3308,6 +3311,7 @@ starter.controller('RestaurantPaymentCtrl', [
 			WePay.set_endpoint(config.wepay_endpoint);
 			// change to "production" when live
 			console.log(WePay);
+			alert(localStorageService.get('name'));
 			response = WePay.credit_card.create({
 				"client_id" : config.wepay_client_id,
 				"user_name" : localStorageService.get('name'),
@@ -3322,8 +3326,11 @@ starter.controller('RestaurantPaymentCtrl', [
 					"zip" : udata.zipcode
 				}
 			}, cb);
+			//alert(response);
+			console.log(response);
 		};
-		var make_payment = function() {
+
+		var make_payment = function(credit_card_id) {
 			utils.debug("make_payment....");
 			var paymentData = {
 				name : localStorageService.get('name'),
@@ -3333,6 +3340,7 @@ starter.controller('RestaurantPaymentCtrl', [
 				email : localStorageService.get('email'),
 				access_token : localStorageService.get('access_token'),
 				credit_card_id : $scope.formData.credit_card_id,
+				credit_card_id : credit_card_id,
 				amount : $scope.formData.amount,
 				org_id : $scope.org.id
 			};
@@ -3525,6 +3533,8 @@ starter.controller('SplashCtrl', [ '$scope', '$rootScope', '$state', '$statePara
 					utils.debug('payment verification done');
 					var discount_data = {};
 					discount_data.code = JsonData.code;
+					localStorageService.set('name', JsonData.user.first_name + ' ' + JsonData.user.last_name);
+					localStorageService.set('email',JsonData.user.email );
 					discount_data.organization = JsonData.organisation;
 					userDataService.set_discount_data(discount_data);
 					$state.go('tabs.card');
@@ -3657,6 +3667,8 @@ starter.controller('SupporterCardCtrl', [ '$scope', '$rootScope', '$state', '$st
 				discount_data.code = JsonData.code;
 				discount_data.organization = JsonData.organisation;
 				userDataService.set_discount_data(discount_data);
+				localStorageService.set('name', JsonData.user.first_name + ' ' + JsonData.user.last_name);
+				localStorageService.set('email',JsonData.user.email );
 				//$state.go('tabs.card');
 				$scope.org = userDataService.getOrg();
 				$scope.discount_data = userDataService.get_discount_data();
@@ -3880,7 +3892,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : $.tw.global('apiUrl') + "consumer/card",
+			url : $.tw.global('secureUrl') + "consumer/card",
 			data : card_data
 		}).success(function(data, status, headers, config) {
 			deffered.resolve(data);
@@ -3901,7 +3913,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : $.tw.global('apiUrl') + "consumer/add_paypal",
+			url : $.tw.global('secureUrl') + "consumer/add_paypal",
 			data : card_data
 		}).success(function(data, status, headers, config) {
 			deffered.resolve(data);
@@ -3920,7 +3932,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'GET',
-			url : $.tw.global('apiUrl') + "consumer/card_details",
+			url : $.tw.global('secureUrl') + "consumer/card_details",
 			data : {},
 			params : {}
 		}).success(function(data, status, headers, config) {
@@ -3935,7 +3947,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'GET',
-			url : config.apiUrl + "codeRest/restBrainTreeToken",
+			url : config.secureUrl + "codeRest/restBrainTreeToken",
 			data : {},
 			params : {
 				access_token : access_token
@@ -3951,7 +3963,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : config.apiUrl + "codeRest/restWePayCheckout",
+			url : config.secureUrl + "codeRest/restWePayCheckout",
 			data : $.param(data)
 		}).success(function(data, status, headers, config) {
 			deffered.resolve(data);
@@ -3964,7 +3976,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : config.apiUrl + "codeRest/restRestaurantWePayCheckout",
+			url : config.secureUrl + "codeRest/restRestaurantWePayCheckout",
 			data : $.param(data)
 		}).success(function(data, status, headers, config) {
 			deffered.resolve(data);
@@ -3978,7 +3990,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : config.apiUrl + "codeRest/restCashCode",
+			url : config.secureUrl + "codeRest/restCashCode",
 			data : $.param(data)
 		}).success(function(data, status, headers, config) {
 			deffered.resolve(data);
@@ -3992,7 +4004,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'GET',
-			url : config.apiUrl + "codeRest/restVerify",
+			url : config.secureUrl + "codeRest/restVerify",
 			data : {},
 			params : {
 				access_token : access_token
@@ -4009,7 +4021,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'GET',
-			url : config.apiUrl + "organisationRest/restVerify",
+			url : config.secureUrl + "organisationRest/restVerify",
 			data : {},
 			params : {
 				organisation_id : organisation_id
@@ -4070,7 +4082,7 @@ starter.factory('fundModel', [ '$http', '$q', 'config', 'utils', 'localStorageSe
 			var deffered = $q.defer();
 			$http({
 				method : 'POST',
-				url : config.apiUrl + "codeRest/restAssign",
+				url : config.secureUrl + "codeRest/restAssign",
 				data : $.param(data)
 
 			}).success(function(data, status, headers, config) {
@@ -4151,7 +4163,7 @@ starter.factory('loginModel', [ '$http', '$q', 'config', 'utils', function($http
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : config.apiUrl + "site/authorizeAjax",
+			url : config.secureUrl + "site/authorizeAjax",
 			data : $.param(data)
 
 		}).success(function(data, status, headers, config) {
@@ -4167,7 +4179,7 @@ starter.factory('loginModel', [ '$http', '$q', 'config', 'utils', function($http
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : config.apiUrl + "site/registerAjax",
+			url : config.secureUrl + "site/registerAjax",
 			data : $.param(data)
 		}).success(function(data, status, headers, config) {
 			deffered.resolve(data);
@@ -4202,7 +4214,7 @@ starter.factory('loginModel', [ '$http', '$q', 'config', 'utils', function($http
 		var deffered = $q.defer();
 		$http({
 			method : 'GET',
-			url : config.apiUrl + "logout",
+			url : config.secureUrl + "logout",
 			data : {},
 			params : {}
 		}).success(function(data, status, headers, config) {
@@ -4445,7 +4457,7 @@ starter
 				};
 
 			} ]);
-angular.module("templatescache", []).run(["$templateCache", function($templateCache) {$templateCache.put("code.html","<ion-view cache-view=\"false\" view-title=\"{{view_title}}\" hide-back-button=\"{{hide_back_btn}}\"> <ion-content>\n\n<div class=\"col\" ng-show=\"error != true\">\n	<h1 class=\"headerH1\">The following code is now activated. Please give it to your supporter.</h1>\n	<input readonly class=\"code\" value=\"{{org_code.code.code}}\" />\n</div>\n\n<div class=\"col\" ng-show=\"error\">{{org_code.message}}</div>\n\n<button class=\"btn btn_red\" style=\"font-size:22px;width:95%\" ng-click=\"go(\'tabs.home\')\">GET ANOTHER CODE</button>\n\n<button class=\"btn btn_yellow\" style=\"font-size:22px;width:95%\" ng-if=\"hide_card\" ng-click=\"supporter_card()\">GO BACK TO CARD</button>\n\n<button class=\"btn btn_blue\" style=\"font-size:22px;width:95%\" ng-if=\"hide_logout\" ng-click=\"logout();\">Logout</button>\n</ion-content> </ion-view>");
+angular.module("templatescache", []).run(["$templateCache", function($templateCache) {$templateCache.put("code.html","<ion-view cache-view=\"false\" view-title=\"{{view_title}}\" hide-back-button=\"{{hide_back_btn}}\"> <ion-content>\n\n<div class=\"col\" ng-show=\"error != true\">\n	<h1 class=\"headerH1\">The following code is now activated. Please give it to your supporter.</h1>\n	<input readonly class=\"code\" value=\"{{org_code.code.code}}\" />\n</div>\n\n<div class=\"col\" ng-show=\"error\">{{org_code.message}}</div>\n\n<button class=\"btn btn_red\" style=\"font-size:22px;width:95%\" ng-click=\"go(\'tabs.home\')\">GET ANOTHER CODE</button>\n\n<button class=\"btn btn_yellow\" style=\"font-size:22px;width:95%\" ng-if=\"hide_card\" ng-click=\"supporter_card()\">GO BACK TO CARD</button>\n\n<button class=\"btn btn_blue\" style=\"font-size:22px;width:95%\" ng-if=\"hide_logout\"  ng-click=\"logout();\">Logout</button>\n</ion-content> </ion-view>");
 $templateCache.put("home.html","<ion-view cache-view=\"false\" view-title=\"{{view_title}}\" hide-back-button=\"{{hide_back_btn}}\"> <ion-content>\n\n<div ng-hide=\"data.code\">\n	<div class=\"col\">\n		<h1 class=\"headerH1\">I received <br/>the ${{org.cost}} <br/>contribution</h1>\n	</div>\n\n	<button class=\"btn btn_red\" ng-click=\"get_code()\">Get Code</button>\n	<button class=\"btn btn_yellow\" ng-if=\"hide_card\"  ng-click=\"supporter_card()\">GO BACK TO CARD</button>\n</div>\n<div class=\"col\" ng-show=\"data.code\">\n	<h1 class=\"headerH1\">Code Generated</h1>\n	<h1 class=\"headerH1\">The following code is now activated. Please give it to your supporter.</h1>\n	<h2 style=\"background-color: #fff;padding:5px;\">{{data.code.code}}</h2>\n</div>\n\n</ion-content> </ion-view>");
 $templateCache.put("login.html","<ion-view view-title=\"{{view_title}}\"> <ion-content>\n<div class=\"list list-inset formStyle\">\n	<h1>Login</h1>\n	<label class=\"item item-input\">\n		<input type=\"email\" name=\"email\" value=\"{{login.username}}\" ng-model=\"login.username\" class=\"{{login_error.email}}\"\n			placeholder=\"Email\" autocorrect=\"off\" autocomplete=\"off\" autocapitalize=\"off\" />\n	</label>\n	<label class=\"item item-input\">\n		<input type=\"password\" name=\"password\" value=\"{{login.password}}\" ng-model=\"login.password\"\n			class=\"{{login_error.password}}\" placeholder=\"Password\" />\n	</label>\n</div>\n\n<img src=\"img/btn_go.png\" ng-click=\"doLogin()\" /> </ion-content> </ion-view>");
 $templateCache.put("menu.html","<ion-side-menus >\n    <ion-pane ion-side-menu-content drag-content=\"false\">\n        <ion-nav-bar class=\"bar-positive\">\n            <ion-nav-buttons side=\"left\">\n                <button class=\"button button-icon button-clear ion-navicon\" menu-toggle=\"left\"></button>\n            </ion-nav-buttons>\n            <ion-nav-back-button class=\"button-icon ion-arrow-left-c\"> </ion-nav-back-button>\n        </ion-nav-bar>\n        <ion-nav-view name=\"menuContent\"></ion-nav-view>\n    </ion-pane>\n\n    <ion-side-menu side=\"left\">\n        <ion-content has-header=\"true\" class=\"menu\">\n            <ion-list>\n            \n             <ion-item nav-clear menu-close ng-click=\"go(\'app.home\');\">\n                    Home\n                </ion-item>\n                \n                <ion-item nav-clear menu-close ng-click=\"logout();\">\n                    Logout\n                </ion-item>\n            </ion-list>\n        </ion-content>\n    </ion-side-menu>\n</ion-side-menus>\n");

@@ -34,7 +34,7 @@ starter.factory('fundModel', [ '$http', '$q', 'config', 'utils', 'localStorageSe
 			var deffered = $q.defer();
 			$http({
 				method : 'POST',
-				url : config.apiUrl + "codeRest/restAssign",
+				url : config.secureUrl + "codeRest/restAssign",
 				data : $.param(data)
 
 			}).success(function(data, status, headers, config) {

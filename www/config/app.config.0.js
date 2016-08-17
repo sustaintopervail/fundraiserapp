@@ -4,9 +4,9 @@ switch (app_config) {
 case 'development':
 	window.app_config = {
 		hide_debug : false,
-		baseUrl : 'http://fundraisingapi.propertytaxcard.com/',
-		secureUrl : 'https://fundraisingapi.propertytaxcard.com/',
-		apiUrl : 'http://fundraisingapi.propertytaxcard.com/',
+		baseUrl : 'http://api.myfundraiserapp.com/',
+		secureUrl : 'https://api.myfundraiserapp.com/',
+		apiUrl : 'http://api.myfundraiserapp.com/',
 		sharedToken : '123'
 	};
 	break;
@@ -14,9 +14,9 @@ case 'development':
 case 'staging':
 	window.app_config = {
 		hide_debug : false,
-		baseUrl : 'http://fundraisingapi.propertytaxcard.com/',
-		secureUrl : 'https://fundraisingapi.propertytaxcard.com/',
-		apiUrl : 'http://fundraisingapi.propertytaxcard.com/',
+		baseUrl : 'http://api.myfundraiserapp.com/',
+		secureUrl : 'https://api.myfundraiserapp.com/',
+		apiUrl : 'http://api.myfundraiserapp.com/',
 		sharedToken : '123',
 		wepay_endpoint : "stage", // stage or production
 		wepay_client_id : "113700"
@@ -26,9 +26,9 @@ case 'staging':
 case 'production':
 	window.app_config = {
 		hide_debug : false,
-		baseUrl : 'http://fundraisingapi.propertytaxcard.com/',
-		secureUrl : 'https://fundraisingapi.propertytaxcard.com/',
-		apiUrl : 'http://fundraisingapi.propertytaxcard.com/',
+		baseUrl : 'http://api.myfundraiserapp.com/',
+		secureUrl : 'https://api.myfundraiserapp.com/',
+		apiUrl : 'http://api.myfundraiserapp.com/',
 		sharedToken : '123',
 		wepay_endpoint : "stage", // stage or production
 		wepay_client_id : "113700"

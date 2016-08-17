@@ -22,6 +22,8 @@ starter.controller('SplashCtrl', [ '$scope', '$rootScope', '$state', '$statePara
 					utils.debug('payment verification done');
 					var discount_data = {};
 					discount_data.code = JsonData.code;
+					localStorageService.set('name', JsonData.user.first_name + ' ' + JsonData.user.last_name);
+					localStorageService.set('email',JsonData.user.email );
 					discount_data.organization = JsonData.organisation;
 					userDataService.set_discount_data(discount_data);
 					$state.go('tabs.card');

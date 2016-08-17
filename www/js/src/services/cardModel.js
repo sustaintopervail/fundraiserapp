@@ -10,7 +10,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : $.tw.global('apiUrl') + "consumer/card",
+			url : $.tw.global('secureUrl') + "consumer/card",
 			data : card_data
 		}).success(function(data, status, headers, config) {
 			deffered.resolve(data);
@@ -31,7 +31,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : $.tw.global('apiUrl') + "consumer/add_paypal",
+			url : $.tw.global('secureUrl') + "consumer/add_paypal",
 			data : card_data
 		}).success(function(data, status, headers, config) {
 			deffered.resolve(data);
@@ -50,7 +50,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'GET',
-			url : $.tw.global('apiUrl') + "consumer/card_details",
+			url : $.tw.global('secureUrl') + "consumer/card_details",
 			data : {},
 			params : {}
 		}).success(function(data, status, headers, config) {
@@ -65,7 +65,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'GET',
-			url : config.apiUrl + "codeRest/restBrainTreeToken",
+			url : config.secureUrl + "codeRest/restBrainTreeToken",
 			data : {},
 			params : {
 				access_token : access_token
@@ -81,7 +81,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : config.apiUrl + "codeRest/restWePayCheckout",
+			url : config.secureUrl + "codeRest/restWePayCheckout",
 			data : $.param(data)
 		}).success(function(data, status, headers, config) {
 			deffered.resolve(data);
@@ -94,7 +94,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : config.apiUrl + "codeRest/restRestaurantWePayCheckout",
+			url : config.secureUrl + "codeRest/restRestaurantWePayCheckout",
 			data : $.param(data)
 		}).success(function(data, status, headers, config) {
 			deffered.resolve(data);
@@ -108,7 +108,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : config.apiUrl + "codeRest/restCashCode",
+			url : config.secureUrl + "codeRest/restCashCode",
 			data : $.param(data)
 		}).success(function(data, status, headers, config) {
 			deffered.resolve(data);
@@ -122,7 +122,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'GET',
-			url : config.apiUrl + "codeRest/restVerify",
+			url : config.secureUrl + "codeRest/restVerify",
 			data : {},
 			params : {
 				access_token : access_token
@@ -139,7 +139,7 @@ starter.factory('cardModel', [ '$http', '$q', '$rootScope', 'config', function($
 		var deffered = $q.defer();
 		$http({
 			method : 'GET',
-			url : config.apiUrl + "organisationRest/restVerify",
+			url : config.secureUrl + "organisationRest/restVerify",
 			data : {},
 			params : {
 				organisation_id : organisation_id

@@ -16,6 +16,8 @@ starter.controller('SupporterCardCtrl', [ '$scope', '$rootScope', '$state', '$st
 				discount_data.code = JsonData.code;
 				discount_data.organization = JsonData.organisation;
 				userDataService.set_discount_data(discount_data);
+				localStorageService.set('name', JsonData.user.first_name + ' ' + JsonData.user.last_name);
+				localStorageService.set('email',JsonData.user.email );
 				//$state.go('tabs.card');
 				$scope.org = userDataService.getOrg();
 				$scope.discount_data = userDataService.get_discount_data();

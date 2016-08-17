@@ -7,7 +7,7 @@ starter.factory('loginModel', [ '$http', '$q', 'config', 'utils', function($http
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : config.apiUrl + "site/authorizeAjax",
+			url : config.secureUrl + "site/authorizeAjax",
 			data : $.param(data)
 
 		}).success(function(data, status, headers, config) {
@@ -23,7 +23,7 @@ starter.factory('loginModel', [ '$http', '$q', 'config', 'utils', function($http
 		var deffered = $q.defer();
 		$http({
 			method : 'POST',
-			url : config.apiUrl + "site/registerAjax",
+			url : config.secureUrl + "site/registerAjax",
 			data : $.param(data)
 		}).success(function(data, status, headers, config) {
 			deffered.resolve(data);
@@ -58,7 +58,7 @@ starter.factory('loginModel', [ '$http', '$q', 'config', 'utils', function($http
 		var deffered = $q.defer();
 		$http({
 			method : 'GET',
-			url : config.apiUrl + "logout",
+			url : config.secureUrl + "logout",
 			data : {},
 			params : {}
 		}).success(function(data, status, headers, config) {
