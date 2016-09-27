@@ -122,7 +122,7 @@ starter.controller('RestaurantPaymentCtrl', [
 			WePay.set_endpoint(config.wepay_endpoint);
 			// change to "production" when live
 			console.log(WePay);
-			alert(localStorageService.get('name'));
+			//alert(localStorageService.get('name'));
 			response = WePay.credit_card.create({
 				"client_id" : config.wepay_client_id,
 				"user_name" : localStorageService.get('name'),

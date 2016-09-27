@@ -20,6 +20,7 @@ starter.controller('MerchantsCtrl',
 			$scope.sms = (_org) ? true : false;
 			var acess_token = localStorageService.get('access_token');
 			$scope.is_vc = (acess_token && acess_token != '') ? true : false;
+			$scope.not_is_vc = (acess_token && acess_token != '') ? false : true;
 
 			$rootScope.show_spinner();
 			var _orgPromise = fundModel.get_merchants(_org.id);
