@@ -1330,9 +1330,12 @@ angular.module('angularPayments', []);angular.module('angularPayments')
   // expiry is a string "mm / yy[yy]"
   ret['parseExpiry'] = function(value){
     var month, prefix, year, _ref;
-
-    value = value || ''
-
+    console.log(value);
+    value = value || '';
+    if(value == 'Invalid Date'){
+    	value = '';
+    }
+    console.log(value);
     value = value.replace(/\s/g, '');
     _ref = value.split('/', 2), month = _ref[0], year = _ref[1];
 
@@ -2343,363 +2346,6 @@ angular.module('myFastClick', []).run(function() {
 	FastClick.attach(document.body);
 });
 
-starter.controller('AppCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'config', 'localStorageService',
-	function($scope, $rootScope, $state, $stateParams, $timeout, config, localStorageService) {
-
-	} ]);
-starter.controller('codeCtrl', [
-	'$scope',
-	'$rootScope',
-	'$state',
-	'$stateParams',
-	'config',
-	'utils',
-	'fundModel',
-	'popupTimer',
-	'userDataService',
-	'localStorageService',
-	'popupTimer',
-	function($scope, $rootScope, $state, $stateParams, config, utils, fundModel, loginModel, userDataService,
-		localStorageService, popupTimer) {
-		$scope.view_title = "Member Organization";
-		$scope.data = {};
-		$scope.hide_back_btn = false;
-		$scope.data.code = false;
-
-		$scope.org = userDataService.getOrg();
-		$scope.org_code = localStorageService.get('org_code');
-
-		$scope.error = true;
-		if ($scope.org_code.success) {
-			$scope.error = false;
-		}
-
-		var supporter = localStorageService.get('supporter_access_token');
-		//alert(supporter);
-		$scope.hide_logout = (supporter && supporter != '') ? false : true;
-		//alert(hide_logout);
-		$scope.hide_card = (supporter && supporter != '') ? true : false;
-
-		$rootScope.supporter_card = function() {
-			if(localStorageService.get('supporter_access_token')){
-				localStorageService.set('access_token', localStorageService.get('supporter_access_token'));
-				$state.go('tabs.card');
-			}else{
-				alert('You do not have any activated virtual card');
-			}
-		};
-
-	}]);
-
-starter.controller('HomeCtrl', [
-	'$scope',
-	'$rootScope',
-	'$state',
-	'$stateParams',
-	'config',
-	'fundModel',
-	'userDataService',
-	'localStorageService',
-	'cardModel',
-	'utils',
-	'popupTimer',
-	function($scope, $rootScope, $state, $stateParams, config, fundModel, userDataService,
-		localStorageService, cardModel, utils, popupTimer) {
-		$scope.view_title = "Member Organization";
-		$scope.data = {};
-		$scope.hide_back_btn = false;
-		$scope.data.code = false;
-
-		$scope.org = userDataService.getOrg();
-		var _tokenPromise = cardModel.get_organisation($scope.org.id);
-		utils.debug(_tokenPromise);
-		_tokenPromise.then(function(JsonData) {
-			$rootScope.hide_spinner();
-			utils.debug(JsonData);
-			if (JsonData.success) {
-				userDataService.setOrg(JsonData.organisation);
-				$scope.org = userDataService.getOrg();
-			} else {
-				utils.debug('organisation error');
-				$rootScope.hide_spinner();
-			}
-		}, function(status) {
-			$rootScope.hide_spinner();
-			utils.debug(status);
-		});
-
-
-		$scope.get_code = function() {
-
-			$rootScope.show_spinner();
-
-			post_data = {
-				'access_token' : localStorageService.get('access_token'),
-				'organisation_id' : $scope.org.id
-			};
-
-			var _codePromise = fundModel.get_code(post_data);
-
-			_codePromise.then(function(JsonData) {
-				$rootScope.hide_spinner();
-				utils.debug('JsonData recieved');
-				utils.debug(JSON.stringify(JsonData));
-				localStorageService.set('org_code', JsonData.data);
-				$state.go("tabs.code");
-			}, function(status) {
-				$rootScope.hide_spinner();
-			});
-
-		};
-
-		var supporter = localStorageService.get('supporter_access_token');
-		$scope.hide_card = (supporter && supporter != '') ? true : false;
-
-		$rootScope.supporter_card = function() {
-			if(localStorageService.get('supporter_access_token')){
-				localStorageService.set('access_token', localStorageService.get('supporter_access_token'));
-				$state.go('tabs.card');
-			}else{
-				alert('You do not have any activated virtual card');
-			}
-		};
-
-	} ]);
-
-starter.controller('LoginCtrl', [
-	'$rootScope',
-	'$scope',
-	'$state',
-	'$stateParams',
-	'config',
-	'utils',
-	'loginModel',
-	'userDataService',
-	'localStorageService',
-	'popupTimer',
-	function($rootScope, $scope, $state, $stateParams, config, utils, loginModel, userDataService, localStorageService,
-		popupTimer) {
-		$scope.view_title = "Member Organization";
-		$scope.hide_back_btn = false;
-
-		var error_class = "ng-invalid ng-dirty";
-		var _org = userDataService.getOrg();
-		$scope.login = {
-			// username : "imhassan66@gmail.com",
-			// email: "imhassan66@gmail.com",
-			// password : "test123",
-
-			username : "",
-			login_type : "seller",
-			email : "",
-			password : "",
-			client_id : "1234567890",
-			org_id : _org.id,
-			grant_type : "password",
-			redirect_uri : "test"
-		};
-
-		$scope.login_error = {
-			email : "",
-			password : ""
-		};
-		$rootScope.fix_enter_key();
-
-		$scope.validateLoginForm = function() {
-			var isValid = true;
-			$scope.login_error = {
-				email : "",
-				password : ""
-			};
-
-			if ($scope.login.username == "" || utils.is_valid_email($scope.login.username) == false) {
-				$scope.login_error.email = error_class;
-				isValid = false;
-			}
-			if ($scope.login.password == "") {
-				$scope.login_error.password = error_class;
-				isValid = false;
-			}
-
-			return isValid;
-		};
-
-		$scope.doLogin = function() {
-			utils.debug('doLogin');
-			var isValid = $scope.validateLoginForm();
-			if (isValid == false) {
-				return false;
-			}
-			localStorageService.set('key_id', "");
-			$rootScope.show_spinner();
-			$scope.login.email = $scope.login.username;	
-			$scope.login.email = $scope.login.username;
-			var _loginPromise = loginModel.doLogin($scope.login);
-			_loginPromise.then(function(JsonData) {
-				$rootScope.hide_spinner();
-				utils.debug('JsonData recieved');
-				utils.debug(JSON.stringify(JsonData));
-				if (JsonData.success) {
-					localStorageService.set('access_token', JsonData.data.access_token);
-					// set the user's data in service
-					userDataService.setUserSignupData(JsonData.data);
-					utils.debug("user_type: " + JsonData.data.user_type);
-					if (JsonData.data.user_type == "Supporter") {
-						$state.go('tabs.supporter_home');
-					} else {
-						$state.go('tabs.home');
-					}
-
-				} else {
-					utils.debug('login failed: ' + JSON.stringify(JsonData));
-					$scope.modaldata = {
-						title : "Login failed",
-						body : "We are unable to login with your credentials. Please try again."
-					};
-					popupTimer.error($scope);
-
-				}
-
-			}, function(status) {
-				$rootScope.hide_spinner();
-			});
-
-		};
-
-	} ]);
-
-starter.controller('MainCtrl', [
-	'$rootScope',
-	'$scope',
-	'$state',
-	'$stateParams',
-	'config',
-	"utils",
-	"loginModel",
-	"localStorageService",
-	'userDataService',
-	'$ionicLoading',
-	function($rootScope, $scope, $state, $stateParams, config, utils, loginModel, localStorageService, userDataService,
-		$ionicLoading) {
-
-		$rootScope.user_login = false;
-		// check user's key and verify user is loggedin or not
-		$rootScope.isUserLogin = function(callback) {
-			var _isLogin = false;
-			if (localStorageService.get('key_id') != undefined && localStorageService.get('key_id') != null
-				&& localStorageService.get('key_id') != "") {
-
-				if (userDataService.isUserDataSet()) {
-					_isLogin = true;
-					$rootScope.user_login = true;
-					if (callback && typeof callback == 'function') {
-						callback(_isLogin);
-					}
-				} else {
-					var handshakePromose = loginModel.handshake();
-					handshakePromose.then(function(JsonData) {
-						if (JsonData.status) {
-							userDataService.setUserSignupData(JsonData.data);
-							utils.debug("handshake-data: ");
-							utils.debug(JsonData.data);
-							_isLogin = true;
-							$rootScope.user_login = true;
-							if (callback && typeof callback == 'function') {
-								callback(_isLogin);
-							}
-						} else {
-							callback(_isLogin);
-						}
-					}, function(status) {
-						callback(_isLogin);
-					});
-				}
-			} else {
-				if (callback && typeof callback == 'function') {
-					callback(_isLogin);
-				}
-			}
-		};
-
-		// logout user and redirect to login screen
-		$rootScope.logout = function() {
-
-			userDataService.clearUserSignupData();
-			localStorageService.clearAll();
-			// redirect to login
-			$state.go('tabs.start');
-
-		};
-
-		$rootScope.supporter_card = function() {
-			if(localStorageService.get('supporter_access_token')){
-				localStorageService.set('access_token', localStorageService.get('supporter_access_token'));
-				$state.go('tabs.card');
-			}else{
-				alert('You do not have any activated virtual card');
-			}
-		};
-		$rootScope.go = function(state) {
-			// redirect to login
-			$state.go(state);
-		};
-
-		$rootScope.show_spinner = function() {
-			$ionicLoading.show({
-				template : '<ion-spinner icon="circles"></ion-spinner>'
-			});
-		};
-
-		$rootScope.hide_spinner = function() {
-			$ionicLoading.hide();
-			$rootScope.laoding = false;
-		};
-
-		$rootScope.fix_enter_key = function() {
-			utils.debug('1');
-
-			$(document).keypress(function(e) {
-				if (e.which == 13) {
-					utils.debug('You pressed enter!');
-					cordova.plugins.Keyboard.close();
-				}
-			});
-		};
-
-		$rootScope.internetMsgShown = false;
-		$rootScope.checkInternetConnectivity = function() {
-			if ($rootScope.internetMsgShown == false) {
-				$rootScope.internetMsgShown = true;
-				$rootScope.hide_spinner();
-
-				$scope.modaldata = {
-					title : "Network Error",
-					body : "Sorry, you're not connected to the internet."
-				};
-				popupTimer.show($scope, function() {
-
-				}, 5000);
-			}
-		};
-
-		$rootScope.openUrl = function(urlString) {
-			// urlString = encodeURI(urlString);
-			if (utils.is_ios()) {
-				window.open(encodeURI(urlString), '_system', 'location=yes');
-				// $window.open(urlString, '_system');
-				// window.open(urlString, '_blank', 'location=yes')
-				// window.plugins.childBrowser.openExternal(urlString);
-			} else if (utils.is_mobile_ua()) {
-				navigator.app.loadUrl(urlString, {
-					openExternal : true
-				});
-			} else {
-				$window.open(urlString, '_system');
-			}
-		};
-
-	} ]);
-
 starter.controller('MerchantsCtrl',
 	[
 		'$rootScope',
@@ -3319,6 +2965,550 @@ starter.controller('RestaurantPaymentCtrl', [
 
 	} ]);
 
+starter.controller('StartCtrl', [
+	'$rootScope',
+	'$scope',
+	'$state',
+	'$stateParams',
+	'config',
+	'utils',
+	'fundModel',
+	'loginModel',
+	'userDataService',
+	'localStorageService',
+	'popupTimer',
+	'$filter',
+	function($rootScope, $scope, $state, $stateParams, config, utils, fundModel, loginModel, userDataService,
+		localStorageService, popupTimer, $filter) {
+		$scope.view_title = "MyFundRaiserApp";
+		$scope.hide_back_btn = true;
+		$scope.orgs = null;
+		$scope.data = {};
+		$scope.data.query = "";
+		$rootScope.show_spinner();
+
+		var _orgPromise = fundModel.get_organizations();
+
+		_orgPromise.then(function(JsonData) {
+			$rootScope.hide_spinner();
+			utils.debug('JsonData recieved');
+			utils.debug(JSON.stringify(JsonData));
+			if (JsonData.data.success) {
+				$scope.orgs = JsonData.data.profile;
+				$scope.filteredOrgs = $filter('exactMatch')($scope.orgs, $scope.data.query);
+			}
+		}, function(status) {
+			$rootScope.hide_spinner();
+		});
+
+		$scope.privacyPolicy=function(){
+			$state.go('tabs.privacy_policy');
+		};
+
+		$scope.org_select = function(org) {
+			console.log(org);
+			console.log('Start: line#40');
+			userDataService.setOrg(org);
+			/*$state.go('tabs.welcome', {}, {reload: true});*/
+			$state.transitionTo('tabs.welcome', $stateParams, {
+				reload: true,
+				inherit: false,
+				notify: true
+			});
+
+
+		};
+
+		$scope.$watch('data.query', function() {
+			console.log($scope.data.query);
+			if ($scope.data.query == "")
+				return;
+			$scope.filteredOrgs = $filter('exactMatch')($scope.orgs, $scope.data.query);
+		});
+
+	} ]);
+
+starter.filter('exactMatch', function() {
+	return function(words, pattern) {
+		var result = [];
+		words.forEach(function(word) {
+			// console.log('hh');
+			if (word.organisation_name.toLowerCase().substring(0, pattern.length) === pattern.toLowerCase()) {
+				result.push(word);
+			}
+		});
+		return result;
+	}
+});
+
+starter.controller('SupporterCardCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', 'config', 'userDataService', 'utils',
+	'localStorageService', 'loginModel','cardModel',
+	function($scope, $rootScope, $state, $stateParams, config, userDataService, utils, localStorageService, loginModel, cardModel) {
+		$scope.view_title = "Supporter";
+		$scope.hide_back_btn = true;
+
+		var _tokenPromise = cardModel.virtual_card(localStorageService.get('access_token'));
+		utils.debug(_tokenPromise);
+		_tokenPromise.then(function(JsonData) {
+			$rootScope.hide_spinner();
+			utils.debug(JsonData);
+			if (JsonData.success) {
+
+				utils.debug('payment verification done');
+				var discount_data = {};
+				discount_data.code = JsonData.code;
+				discount_data.organization = JsonData.organisation;
+				userDataService.set_discount_data(discount_data);
+				localStorageService.set('name', JsonData.user.first_name + ' ' + JsonData.user.last_name);
+				localStorageService.set('email',JsonData.user.email );
+				//$state.go('tabs.card');
+				$scope.org = userDataService.getOrg();
+				$scope.discount_data = userDataService.get_discount_data();
+				 // console.log($scope.discount_data);
+
+				 if ($scope.discount_data.organization.organisation_logo == "") {
+					 $scope.discount_data.organization.organisation_logo = "img/logo.png";
+				 }
+				$rootScope.hide_spinner();
+				document.addEventListener("backbutton", function(){
+					navigator.app.exitApp();
+				}, false);
+
+
+				//return;
+			} else {
+				utils.debug('payment errror');
+				show_error(JsonData.message);
+				$state.go('tabs.start');
+				return;
+			}
+		}, function(status) {
+			$rootScope.hide_spinner();
+			utils.debug(status);
+		});
+
+		/*$scope.org = userDataService.getOrg();
+		$scope.discount_data = userDataService.get_discount_data();
+		// console.log($scope.discount_data);
+
+		if ($scope.discount_data.organization.organisation_logo == "") {
+			$scope.discount_data.organization.organisation_logo = "img/logo.png";
+		}*/
+		$rootScope.logout = function() {
+
+			userDataService.clearUserSignupData();
+			localStorageService.clearAll();
+			// redirect to login
+			$state.go('tabs.start');
+
+		};
+
+		$rootScope.login = function() {
+			localStorageService.set('supporter_access_token', localStorageService.get('access_token'));
+			$state.go('tabs.login');
+
+		};
+
+		$rootScope.home = function() {
+			$state.go('tabs.supporter_home');
+		};
+
+		$rootScope.merchants = function() {
+			$state.go('tabs.merchants');
+		};
+
+	} ]);
+
+starter.controller('SupporterHomeCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', 'config', 'userDataService', 'utils',
+	'localStorageService', 'loginModel',
+	function($scope, $rootScope, $state, $stateParams, config, userDataService, utils, localStorageService, loginModel) {
+		$scope.view_title = "Supporter";
+		$scope.hide_back_btn = false;
+		$scope.org = userDataService.getOrg();
+
+		$scope.purchase_click = function() {
+			console.log('purchase it');
+			$state.go('tabs.payment');
+		};
+
+		$scope.purchase_click = function() {
+			console.log('purchase it');
+			$state.go('tabs.payment');
+		};
+
+		$scope.register_supporter = function() {
+			//console.log('login/signup it');
+			$state.go('tabs.signup');
+		};
+
+		$scope.merchants_view = function() {
+			$state.go('tabs.merchants');
+		};
+
+		$scope.cash_click = function() {
+			console.log('cash clicked');
+			$state.go('tabs.payment_cash');
+		};
+
+	} ]);
+
+starter.controller('AppCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', '$timeout', 'config', 'localStorageService',
+	function($scope, $rootScope, $state, $stateParams, $timeout, config, localStorageService) {
+
+	} ]);
+starter.controller('codeCtrl', [
+	'$scope',
+	'$rootScope',
+	'$state',
+	'$stateParams',
+	'config',
+	'utils',
+	'fundModel',
+	'popupTimer',
+	'userDataService',
+	'localStorageService',
+	'popupTimer',
+	function($scope, $rootScope, $state, $stateParams, config, utils, fundModel, loginModel, userDataService,
+		localStorageService, popupTimer) {
+		$scope.view_title = "Member Organization";
+		$scope.data = {};
+		$scope.hide_back_btn = false;
+		$scope.data.code = false;
+
+		$scope.org = userDataService.getOrg();
+		$scope.org_code = localStorageService.get('org_code');
+
+		$scope.error = true;
+		if ($scope.org_code.success) {
+			$scope.error = false;
+		}
+
+		var supporter = localStorageService.get('supporter_access_token');
+		//alert(supporter);
+		$scope.hide_logout = (supporter && supporter != '') ? false : true;
+		//alert(hide_logout);
+		$scope.hide_card = (supporter && supporter != '') ? true : false;
+
+		$rootScope.supporter_card = function() {
+			if(localStorageService.get('supporter_access_token')){
+				localStorageService.set('access_token', localStorageService.get('supporter_access_token'));
+				$state.go('tabs.card');
+			}else{
+				alert('You do not have any activated virtual card');
+			}
+		};
+
+	}]);
+
+starter.controller('HomeCtrl', [
+	'$scope',
+	'$rootScope',
+	'$state',
+	'$stateParams',
+	'config',
+	'fundModel',
+	'userDataService',
+	'localStorageService',
+	'cardModel',
+	'utils',
+	'popupTimer',
+	function($scope, $rootScope, $state, $stateParams, config, fundModel, userDataService,
+		localStorageService, cardModel, utils, popupTimer) {
+		$scope.view_title = "Member Organization";
+		$scope.data = {};
+		$scope.hide_back_btn = false;
+		$scope.data.code = false;
+
+		$scope.org = userDataService.getOrg();
+		var _tokenPromise = cardModel.get_organisation($scope.org.id);
+		utils.debug(_tokenPromise);
+		_tokenPromise.then(function(JsonData) {
+			$rootScope.hide_spinner();
+			utils.debug(JsonData);
+			if (JsonData.success) {
+				userDataService.setOrg(JsonData.organisation);
+				$scope.org = userDataService.getOrg();
+			} else {
+				utils.debug('organisation error');
+				$rootScope.hide_spinner();
+			}
+		}, function(status) {
+			$rootScope.hide_spinner();
+			utils.debug(status);
+		});
+
+
+		$scope.get_code = function() {
+
+			$rootScope.show_spinner();
+
+			post_data = {
+				'access_token' : localStorageService.get('access_token'),
+				'organisation_id' : $scope.org.id
+			};
+
+			var _codePromise = fundModel.get_code(post_data);
+
+			_codePromise.then(function(JsonData) {
+				$rootScope.hide_spinner();
+				utils.debug('JsonData recieved');
+				utils.debug(JSON.stringify(JsonData));
+				localStorageService.set('org_code', JsonData.data);
+				$state.go("tabs.code");
+			}, function(status) {
+				$rootScope.hide_spinner();
+			});
+
+		};
+
+		var supporter = localStorageService.get('supporter_access_token');
+		$scope.hide_card = (supporter && supporter != '') ? true : false;
+
+		$rootScope.supporter_card = function() {
+			if(localStorageService.get('supporter_access_token')){
+				localStorageService.set('access_token', localStorageService.get('supporter_access_token'));
+				$state.go('tabs.card');
+			}else{
+				alert('You do not have any activated virtual card');
+			}
+		};
+
+	} ]);
+
+starter.controller('LoginCtrl', [
+	'$rootScope',
+	'$scope',
+	'$state',
+	'$stateParams',
+	'config',
+	'utils',
+	'loginModel',
+	'userDataService',
+	'localStorageService',
+	'popupTimer',
+	function($rootScope, $scope, $state, $stateParams, config, utils, loginModel, userDataService, localStorageService,
+		popupTimer) {
+		$scope.view_title = "Member Organization";
+		$scope.hide_back_btn = false;
+
+		var error_class = "ng-invalid ng-dirty";
+		var _org = userDataService.getOrg();
+		$scope.login = {
+			// username : "imhassan66@gmail.com",
+			// email: "imhassan66@gmail.com",
+			// password : "test123",
+
+			username : "",
+			login_type : "seller",
+			email : "",
+			password : "",
+			client_id : "1234567890",
+			org_id : _org.id,
+			grant_type : "password",
+			redirect_uri : "test"
+		};
+
+		$scope.login_error = {
+			email : "",
+			password : ""
+		};
+		$rootScope.fix_enter_key();
+
+		$scope.validateLoginForm = function() {
+			var isValid = true;
+			$scope.login_error = {
+				email : "",
+				password : ""
+			};
+
+			if ($scope.login.username == "" || utils.is_valid_email($scope.login.username) == false) {
+				$scope.login_error.email = error_class;
+				isValid = false;
+			}
+			if ($scope.login.password == "") {
+				$scope.login_error.password = error_class;
+				isValid = false;
+			}
+
+			return isValid;
+		};
+
+		$scope.doLogin = function() {
+			utils.debug('doLogin');
+			var isValid = $scope.validateLoginForm();
+			if (isValid == false) {
+				return false;
+			}
+			localStorageService.set('key_id', "");
+			$rootScope.show_spinner();
+			$scope.login.email = $scope.login.username;	
+			$scope.login.email = $scope.login.username;
+			var _loginPromise = loginModel.doLogin($scope.login);
+			_loginPromise.then(function(JsonData) {
+				$rootScope.hide_spinner();
+				utils.debug('JsonData recieved');
+				utils.debug(JSON.stringify(JsonData));
+				if (JsonData.success) {
+					localStorageService.set('access_token', JsonData.data.access_token);
+					// set the user's data in service
+					userDataService.setUserSignupData(JsonData.data);
+					utils.debug("user_type: " + JsonData.data.user_type);
+					if (JsonData.data.user_type == "Supporter") {
+						$state.go('tabs.supporter_home');
+					} else {
+						$state.go('tabs.home');
+					}
+
+				} else {
+					utils.debug('login failed: ' + JSON.stringify(JsonData));
+					$scope.modaldata = {
+						title : "Login failed",
+						body : "We are unable to login with your credentials. Please try again."
+					};
+					popupTimer.error($scope);
+
+				}
+
+			}, function(status) {
+				$rootScope.hide_spinner();
+			});
+
+		};
+
+	} ]);
+
+starter.controller('MainCtrl', [
+	'$rootScope',
+	'$scope',
+	'$state',
+	'$stateParams',
+	'config',
+	"utils",
+	"loginModel",
+	"localStorageService",
+	'userDataService',
+	'$ionicLoading',
+	function($rootScope, $scope, $state, $stateParams, config, utils, loginModel, localStorageService, userDataService,
+		$ionicLoading) {
+
+		$rootScope.user_login = false;
+		// check user's key and verify user is loggedin or not
+		$rootScope.isUserLogin = function(callback) {
+			var _isLogin = false;
+			if (localStorageService.get('key_id') != undefined && localStorageService.get('key_id') != null
+				&& localStorageService.get('key_id') != "") {
+
+				if (userDataService.isUserDataSet()) {
+					_isLogin = true;
+					$rootScope.user_login = true;
+					if (callback && typeof callback == 'function') {
+						callback(_isLogin);
+					}
+				} else {
+					var handshakePromose = loginModel.handshake();
+					handshakePromose.then(function(JsonData) {
+						if (JsonData.status) {
+							userDataService.setUserSignupData(JsonData.data);
+							utils.debug("handshake-data: ");
+							utils.debug(JsonData.data);
+							_isLogin = true;
+							$rootScope.user_login = true;
+							if (callback && typeof callback == 'function') {
+								callback(_isLogin);
+							}
+						} else {
+							callback(_isLogin);
+						}
+					}, function(status) {
+						callback(_isLogin);
+					});
+				}
+			} else {
+				if (callback && typeof callback == 'function') {
+					callback(_isLogin);
+				}
+			}
+		};
+
+		// logout user and redirect to login screen
+		$rootScope.logout = function() {
+
+			userDataService.clearUserSignupData();
+			localStorageService.clearAll();
+			// redirect to login
+			$state.go('tabs.start');
+
+		};
+
+		$rootScope.supporter_card = function() {
+			if(localStorageService.get('supporter_access_token')){
+				localStorageService.set('access_token', localStorageService.get('supporter_access_token'));
+				$state.go('tabs.card');
+			}else{
+				alert('You do not have any activated virtual card');
+			}
+		};
+		$rootScope.go = function(state) {
+			// redirect to login
+			$state.go(state);
+		};
+
+		$rootScope.show_spinner = function() {
+			$ionicLoading.show({
+				template : '<ion-spinner icon="circles"></ion-spinner>'
+			});
+		};
+
+		$rootScope.hide_spinner = function() {
+			$ionicLoading.hide();
+			$rootScope.laoding = false;
+		};
+
+		$rootScope.fix_enter_key = function() {
+			utils.debug('1');
+
+			$(document).keypress(function(e) {
+				if (e.which == 13) {
+					utils.debug('You pressed enter!');
+					cordova.plugins.Keyboard.close();
+				}
+			});
+		};
+
+		$rootScope.internetMsgShown = false;
+		$rootScope.checkInternetConnectivity = function() {
+			if ($rootScope.internetMsgShown == false) {
+				$rootScope.internetMsgShown = true;
+				$rootScope.hide_spinner();
+
+				$scope.modaldata = {
+					title : "Network Error",
+					body : "Sorry, you're not connected to the internet."
+				};
+				popupTimer.show($scope, function() {
+
+				}, 5000);
+			}
+		};
+
+		$rootScope.openUrl = function(urlString) {
+			// urlString = encodeURI(urlString);
+			if (utils.is_ios()) {
+				window.open(encodeURI(urlString), '_system', 'location=yes');
+				// $window.open(urlString, '_system');
+				// window.open(urlString, '_blank', 'location=yes')
+				// window.plugins.childBrowser.openExternal(urlString);
+			} else if (utils.is_mobile_ua()) {
+				navigator.app.loadUrl(urlString, {
+					openExternal : true
+				});
+			} else {
+				$window.open(urlString, '_system');
+			}
+		};
+
+	} ]);
+
 starter.controller('SignupCtrl', [
 	"$rootScope",
 	'$scope',
@@ -3519,193 +3709,6 @@ starter.controller('SplashCtrl', [ '$scope', '$rootScope', '$state', '$statePara
 
 
 	} ]);
-starter.controller('StartCtrl', [
-	'$rootScope',
-	'$scope',
-	'$state',
-	'$stateParams',
-	'config',
-	'utils',
-	'fundModel',
-	'loginModel',
-	'userDataService',
-	'localStorageService',
-	'popupTimer',
-	'$filter',
-	function($rootScope, $scope, $state, $stateParams, config, utils, fundModel, loginModel, userDataService,
-		localStorageService, popupTimer, $filter) {
-		$scope.view_title = "MyFundRaiserApp";
-		$scope.hide_back_btn = true;
-		$scope.orgs = null;
-		$scope.data = {};
-		$scope.data.query = "";
-		$rootScope.show_spinner();
-
-		var _orgPromise = fundModel.get_organizations();
-
-		_orgPromise.then(function(JsonData) {
-			$rootScope.hide_spinner();
-			utils.debug('JsonData recieved');
-			utils.debug(JSON.stringify(JsonData));
-			if (JsonData.data.success) {
-				$scope.orgs = JsonData.data.profile;
-				$scope.filteredOrgs = $filter('exactMatch')($scope.orgs, $scope.data.query);
-			}
-		}, function(status) {
-			$rootScope.hide_spinner();
-		});
-
-		$scope.privacyPolicy=function(){
-			$state.go('tabs.privacy_policy');
-		};
-
-		$scope.org_select = function(org) {
-			console.log(org);
-			console.log('Start: line#40');
-			userDataService.setOrg(org);
-			/*$state.go('tabs.welcome', {}, {reload: true});*/
-			$state.transitionTo('tabs.welcome', $stateParams, {
-				reload: true,
-				inherit: false,
-				notify: true
-			});
-
-
-		};
-
-		$scope.$watch('data.query', function() {
-			console.log($scope.data.query);
-			if ($scope.data.query == "")
-				return;
-			$scope.filteredOrgs = $filter('exactMatch')($scope.orgs, $scope.data.query);
-		});
-
-	} ]);
-
-starter.filter('exactMatch', function() {
-	return function(words, pattern) {
-		var result = [];
-		words.forEach(function(word) {
-			// console.log('hh');
-			if (word.organisation_name.toLowerCase().substring(0, pattern.length) === pattern.toLowerCase()) {
-				result.push(word);
-			}
-		});
-		return result;
-	}
-});
-
-starter.controller('SupporterCardCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', 'config', 'userDataService', 'utils',
-	'localStorageService', 'loginModel','cardModel',
-	function($scope, $rootScope, $state, $stateParams, config, userDataService, utils, localStorageService, loginModel, cardModel) {
-		$scope.view_title = "Supporter";
-		$scope.hide_back_btn = true;
-
-		var _tokenPromise = cardModel.virtual_card(localStorageService.get('access_token'));
-		utils.debug(_tokenPromise);
-		_tokenPromise.then(function(JsonData) {
-			$rootScope.hide_spinner();
-			utils.debug(JsonData);
-			if (JsonData.success) {
-
-				utils.debug('payment verification done');
-				var discount_data = {};
-				discount_data.code = JsonData.code;
-				discount_data.organization = JsonData.organisation;
-				userDataService.set_discount_data(discount_data);
-				localStorageService.set('name', JsonData.user.first_name + ' ' + JsonData.user.last_name);
-				localStorageService.set('email',JsonData.user.email );
-				//$state.go('tabs.card');
-				$scope.org = userDataService.getOrg();
-				$scope.discount_data = userDataService.get_discount_data();
-				 // console.log($scope.discount_data);
-
-				 if ($scope.discount_data.organization.organisation_logo == "") {
-					 $scope.discount_data.organization.organisation_logo = "img/logo.png";
-				 }
-				$rootScope.hide_spinner();
-				document.addEventListener("backbutton", function(){
-					navigator.app.exitApp();
-				}, false);
-
-
-				//return;
-			} else {
-				utils.debug('payment errror');
-				show_error(JsonData.message);
-				$state.go('tabs.start');
-				return;
-			}
-		}, function(status) {
-			$rootScope.hide_spinner();
-			utils.debug(status);
-		});
-
-		/*$scope.org = userDataService.getOrg();
-		$scope.discount_data = userDataService.get_discount_data();
-		// console.log($scope.discount_data);
-
-		if ($scope.discount_data.organization.organisation_logo == "") {
-			$scope.discount_data.organization.organisation_logo = "img/logo.png";
-		}*/
-		$rootScope.logout = function() {
-
-			userDataService.clearUserSignupData();
-			localStorageService.clearAll();
-			// redirect to login
-			$state.go('tabs.start');
-
-		};
-
-		$rootScope.login = function() {
-			localStorageService.set('supporter_access_token', localStorageService.get('access_token'));
-			$state.go('tabs.login');
-
-		};
-
-		$rootScope.home = function() {
-			$state.go('tabs.supporter_home');
-		};
-
-		$rootScope.merchants = function() {
-			$state.go('tabs.merchants');
-		};
-
-	} ]);
-
-starter.controller('SupporterHomeCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', 'config', 'userDataService', 'utils',
-	'localStorageService', 'loginModel',
-	function($scope, $rootScope, $state, $stateParams, config, userDataService, utils, localStorageService, loginModel) {
-		$scope.view_title = "Supporter";
-		$scope.hide_back_btn = false;
-		$scope.org = userDataService.getOrg();
-
-		$scope.purchase_click = function() {
-			console.log('purchase it');
-			$state.go('tabs.payment');
-		};
-
-		$scope.purchase_click = function() {
-			console.log('purchase it');
-			$state.go('tabs.payment');
-		};
-
-		$scope.register_supporter = function() {
-			//console.log('login/signup it');
-			$state.go('tabs.signup');
-		};
-
-		$scope.merchants_view = function() {
-			$state.go('tabs.merchants');
-		};
-
-		$scope.cash_click = function() {
-			console.log('cash clicked');
-			$state.go('tabs.payment_cash');
-		};
-
-	} ]);
-
 starter.controller('WelcomeCtrl', [ '$scope', '$rootScope', '$state', '$stateParams', 'config', 'userDataService', 'utils',
 	'localStorageService', 'loginModel',
 	function($scope, $rootScope, $state, $stateParams, config, userDataService, utils, localStorageService, loginModel) {
@@ -4409,7 +4412,7 @@ $templateCache.put("login.html","<ion-view view-title=\"{{view_title}}\"> <ion-c
 $templateCache.put("menu.html","<ion-side-menus >\n    <ion-pane ion-side-menu-content drag-content=\"false\">\n        <ion-nav-bar class=\"bar-positive\">\n            <ion-nav-buttons side=\"left\">\n                <button class=\"button button-icon button-clear ion-navicon\" menu-toggle=\"left\"></button>\n            </ion-nav-buttons>\n            <ion-nav-back-button class=\"button-icon ion-arrow-left-c\"> </ion-nav-back-button>\n        </ion-nav-bar>\n        <ion-nav-view name=\"menuContent\"></ion-nav-view>\n    </ion-pane>\n\n    <ion-side-menu side=\"left\">\n        <ion-content has-header=\"true\" class=\"menu\">\n            <ion-list>\n            \n             <ion-item nav-clear menu-close ng-click=\"go(\'app.home\');\">\n                    Home\n                </ion-item>\n                \n                <ion-item nav-clear menu-close ng-click=\"logout();\">\n                    Logout\n                </ion-item>\n            </ion-list>\n        </ion-content>\n    </ion-side-menu>\n</ion-side-menus>\n");
 $templateCache.put("menu_supporter.html","<ion-side-menus >\n    <ion-pane ion-side-menu-content drag-content=\"false\">\n        <ion-nav-bar class=\"bar-positive\">\n            <ion-nav-buttons side=\"left\">\n                <button class=\"button button-icon button-clear ion-navicon\" menu-toggle=\"left\"></button>\n            </ion-nav-buttons>\n            <ion-nav-back-button class=\"button-icon ion-arrow-left-c\"> </ion-nav-back-button>\n        </ion-nav-bar>\n        <ion-nav-view name=\"menuContent\"></ion-nav-view>\n    </ion-pane>\n\n    <ion-side-menu side=\"left\">\n        <ion-content has-header=\"true\" class=\"menu\">\n            <ion-list>\n            \n             <ion-item nav-clear menu-close ng-click=\"go(\'supporter.home\');\">\n                    Home Suppoorter\n                </ion-item>\n                \n                <ion-item nav-clear menu-close ng-click=\"logout();\">\n                    Logout\n                </ion-item>\n            </ion-list>\n        </ion-content>\n    </ion-side-menu>\n</ion-side-menus>\n");
 $templateCache.put("merchants.html","<ion-view cache-view=\"false\" view-title=\"{{view_title}}\" hide-back-button=\"{{hide_back_btn}}\"> <ion-content>\n<ul class=\"list prize_list\" style=\"margin-top: 10px !important;\">\n	<li class=\'item\'>\n		<strong style=\"color: #000 !important; font-weight: bolder !important; font-size: 16px !important;\">Restaurant.com</strong>\n		<p>Best Deal, Every Meal</p>\n		<p>\n			<ul class=\"list restaurant_list\" style=\"list-style:decimal\">\n				<li style=\"border:none !important;\">$10 voucher for $3</li>\n				<li style=\"border:none !important;;\">$25 voucher for $6</li>\n				<li style=\"border:none !important;;\">$50 voucher for $11</li>\n			</ul>\n			Browse deals at restaurants near you<br />\n			<a href=\"#\" onclick=\"window.open(\'https://www.restaurant.com\', \'_system\', \'location=no\'); return false;\">Checkout Restaurant.com Offers</a>\n			<button ng-if=\"is_vc\" class=\"button-full btn btn_yellow\" style=\"width: 250px;margin: 0 auto;\" ng-click=\"restaurantOffer()\">Get Offer</button>\n			<button ng-if=\"not_is_vc\" class=\"button-full btn btn_gray\" style=\"width: 250px;margin: 0 auto;\" >Get Offer</button>\n		</p>\n		<!--<p style=\"color: #FF69B4 !important;\">Offer: {{mrg.offer}}</p>\n		<p>Approved by: {{mrg.owner}}</p>-->\n	</li>\n	<li class=\'item\' ng-repeat=\"mrg in merchants\">\n		<strong style=\"color: #000 !important; font-weight: bolder !important; font-size: 16px !important;\">{{mrg.merchant_name}}</strong>\n		<p>Address: {{mrg.address}}</p>\n		<p>\n			Phone:\n			<a ng-click=\"triggerCall(\'{{mrg.business_phone}}\')\" href=\"#\">{{mrg.business_phone}}</a>\n		</p>\n		<p style=\"color: #FF69B4 !important;\">Offer: {{mrg.offer}}</p>\n		<p style=\"color: #FF69B4 !important;\" ng-if=\"is_vc\">{{mrg.code_offer}}</p>\n		<p>Approved by: {{mrg.owner}}</p>\n	</li>\n</ul>\n</ion-content> </ion-view>");
-$templateCache.put("payment.html","<ion-view cache-view=\"false\" view-title=\"{{view_title}}\" hide-back-button=\"{{hide_back_btn}}\"> <ion-content>\n	<h1>e-payment</h1>\n<div class=\"list list-inset formStyle\">\n	<!--<label class=\"item item-input\">\n		<input type=\"text\" name=\"name\" ng-model=\"formData.name\" placeholder=\"Full Name\" />\n	</label>-->\n	<small style=\"color: #fff;font-size:12px;display:block;text-align: left;padding-left:11px;\">CC # must have spaces. Ex. 1111 2222 3333 4444</small>\n	<label class=\"item item-input\">\n		<input type=\"text\" name=\"credit_card\" ng-model=\"formData.number\" payments-validate=\"card\" payments-format=\"card\" placeholder=\"Card Number\" ng-minlength=\"19\" ng-maxlength=\"19\" onkeypress=\"if(this.value.length > 18){event.preventDefault();}\" /> <!--onblur=\"if(this.value.length < 19){alert(\'Credit card number cannot be less than 16 digits\');}\"-->\n	</label>\n\n	<!--<label class=\"item item-input\">\n		<input type=\"text\" name=\"email\" ng-model=\"formData.email\" placeholder=\"Email\" />\n	</label>-->\n	<small style=\"color: #fff;font-size:12px;display:block;text-align: left;padding-left:11px;\">MM/YY</small>\n	<label class=\"item item-input\">\n		<input type=\"text\" name=\"expiry\" ng-model=\"formData.expiry\" payments-validate=\"expiry\" payments-format=\"expiry\"\n			placeholder=\"MM/YY\" />\n	</label>\n\n	<label class=\"item item-input\">\n		<input type=\"text\" name=\"cvc\" ng-model=\"formData.cvv\" payments-validate=\"cvc\" payments-format=\"cvc\" placeholder=\"CVV\"  ng-minlength=\"3\" ng-maxlength=\"4\"/>\n	</label>\n\n	<label class=\"item item-input\">\n		<input type=\"text\" name=\"zipcode\" ng-model=\"formData.zipcode\" placeholder=\"Zip Code\"  ng-minlength=\"5\" ng-maxlength=\"5\"  onkeypress=\"if(this.value.length > 4){event.preventDefault();});\" />\n	</label>\n	<!--<label class=\"item item-input\">\n		<input type=\"text\" name=\"code\" ng-model=\"formData.code\" placeholder=\"Code Given to You\" />\n	</label>-->\n</div>\n\n\n<button class=\"button-full btn btn_yellow\"  style=\"margin:0 auto;width: 150px;\" ng-click=\"submitCCForm()\">Pay</button>\n\n</ion-content> </ion-view>\n");
+$templateCache.put("payment.html","<ion-view cache-view=\"false\" view-title=\"{{view_title}}\" hide-back-button=\"{{hide_back_btn}}\"> <ion-content>\n	<h1>e-payment</h1>\n<div class=\"list list-inset formStyle\">\n	<!--<label class=\"item item-input\">\n		<input type=\"text\" name=\"name\" ng-model=\"formData.name\" placeholder=\"Full Name\" />\n	</label>-->\n	<small style=\"color: #fff;font-size:12px;display:block;text-align: left;padding-left:11px;\">CC # must have spaces. Ex. 1111 2222 3333 4444</small>\n	<label class=\"item item-input\">\n		<input type=\"text\" name=\"credit_card\" ng-model=\"formData.number\" payments-validate=\"card\" payments-format=\"card\" placeholder=\"Card Number\" ng-minlength=\"19\" ng-maxlength=\"19\" onkeypress=\"if(this.value.length > 18){event.preventDefault();}\" /> <!--onblur=\"if(this.value.length < 19){alert(\'Credit card number cannot be less than 16 digits\');}\"-->\n	</label>\n\n	<!--<label class=\"item item-input\">\n		<input type=\"text\" name=\"email\" ng-model=\"formData.email\" placeholder=\"Email\" />\n	</label>-->\n	<small style=\"color: #fff;font-size:12px;display:block;text-align: left;padding-left:11px;\">MM/YY</small>\n	<label class=\"item item-input\">\n		<input type=\"text\" name=\"expiry\" ng-model=\"formData.expiry\" payments-validate=\"expiry\" payments-format=\"expiry\"\n			placeholder=\"MM/YY\" />\n	</label>\n\n	<label class=\"item item-input\">\n		<input type=\"text\" name=\"cvc\" ng-model=\"formData.cvv\" payments-validate=\"cvc\" payments-format=\"cvc\" placeholder=\"CVV\"  ng-minlength=\"3\" ng-maxlength=\"4\"/>\n	</label>\n\n	<label class=\"item item-input\">\n		<input type=\"text\" name=\"zipcode\" ng-model=\"formData.zipcode\" placeholder=\"Zip Code\"  ng-minlength=\"5\" ng-maxlength=\"5\"  />\n	</label>\n	<!--<label class=\"item item-input\">\n		<input type=\"text\" name=\"code\" ng-model=\"formData.code\" placeholder=\"Code Given to You\" />\n	</label>-->\n</div>\n\n\n<button class=\"button-full btn btn_yellow\"  style=\"margin:0 auto;width: 150px;\" ng-click=\"submitCCForm()\">Pay</button>\n\n</ion-content> </ion-view>\n");
 $templateCache.put("payment_cash.html","<ion-view cache-view=\"false\" view-title=\"{{view_title}}\" hide-back-button=\"{{hide_back_btn}}\"> <ion-content>\n	<h1>Cash Payment</h1>\n<div class=\"list list-inset formStyle\">\n\n	<label class=\"item item-input\">\n		<input type=\"text\" name=\"first_name\" ng-model=\"formData.first_name\" value=\"{{formData.first_name}}\"\n			placeholder=\"First Name\" class=\"{{form_error.first_name}}\" />\n	</label>\n\n	<label class=\"item item-input\">\n		<input type=\"text\" name=\"last_name\" ng-model=\"formData.last_name\" value=\"{{formData.last_name}}\"\n			placeholder=\"Last Name\" class=\"{{form_error.last_name}}\" />\n	</label>\n\n\n	<label class=\"item item-input\">\n		<input type=\"email\" name=\"email\" ng-model=\"formData.email\" placeholder=\"Email\" value=\"{{formData.email}}\"\n			class=\"{{form_error.email}}\" />\n	</label>\n\n	<label class=\"item item-input\">\n		<input type=\"text\" name=\"cell_no\" ng-model=\"formData.cell_no\" placeholder=\"Mobile Phone\" value=\"{{formData.cell_no}}\"\n			class=\"{{form_error.cell_no}}\" ng-minlength=\"10\" ng-maxlength=\"10\" onkeypress=\"if(this.value.length > 9){event.preventDefault();}\" />\n	</label>\n\n	<label class=\"item item-input\">\n		<input type=\"text\" name=\"code\" ng-model=\"formData.code\" placeholder=\"Code Given to You\" value=\"{{formData.code}}\"\n			class=\"{{form_error.code}}\" />\n	</label>\n</div>\n\n\n<button class=\"button-full btn btn_yellow\"  style=\"margin:0 auto;width: 150px;\" ng-click=\"submit_cash_btn()\">GO</button>\n\n</ion-content> </ion-view>\n");
 $templateCache.put("privacy_policy.html","<ion-view cache-view=\"false\" view-title=\"{{view_title}}\" hide-nav-bar=\"false\" hide-back-button=\"false\"><ion-content>\n		<div style=\"text-align: left;color:black;padding:15px;\">\n			<p style=\"text-align: left;color:white;\">\n				<strong style=\"color:black;\">Typical Transaction:</strong> BY PROCEEDING TO THE CHECK OUT AND INPUTTING YOUR CREDIT CARD INFORMATION YOU ARE SUPPORTING THE FUNDRAISING EFFORTS OF THE ORGANIZATION BY PURCHASING THEIR VIRTUAL DISCOUNT CARD FOR A PERIOD OF 12 MONTHS.\n			</p>\n			<p style=\"text-align: left;color:white;\">\n				<strong style=\"color:black;\">PRIOR TO THE CARD EXPIRATION DATE, AND EVERY YEAR THEREAFTER, WE WILL AUTOMATICALLY RENEW YOUR SUPPORT FOR SUBSEQUENT ONE YEAR PERIODS, UNLESS YOU CHOOSE NOT TO CONTINUE YOUR SUPPORT.</strong>\n			</p>\n\n			<p style=\"text-align: left;color:white;\">\n				<strong style=\"color:black;\">Application Use.</strong> MyFundraiserApp grants you the right to use the Application only for your personal use. You must comply with all applicable laws and third party terms of agreement when using the Application (e.g. your wireless data service agreement).\n			</p>\n\n			<p style=\"text-align: left;color:white;\">\n				<strong style=\"color:black;\">Intellectual Property - Applications.</strong> MyFundraiserapp.com owns, or is the licensee to, all right, title, and interest in and to its Applications, including all rights under patent, copyright, trade secret, trademark, or unfair competition law, and any and all other proprietary rights, including all applications, renewals, extensions, and restorations thereof. You will not modify, adapt, translate, prepare derivative works from, decompile, reverse-engineer, disassemble, or otherwise attempt to derive source code from any Application and you will not remove, obscure, or alter MyFundraiserApp�s copyright notice, trademarks or other proprietary rights notices affixed to, contained within, or accessed in conjunction with or by any MyFurdraiserApp Application.\n			</p>\n\n			<p style=\"text-align: left;color:white;\">\n				<strong style=\"color:black;\">Prohibited Countries Policy and Foreign Trade Regulation - Applications.</strong> MyFundraiserApp Applications or their underlying technology may not be downloaded to or exported or re-exported: (a) into (or to a resident or national of) Burma (Myanmar), Cuba, Iraq, Iran, Libya, North Korea, Sudan, Syria, or any other country subject to United States embargo; (b) to anyone on the US Treasury Department\'s list of Specially Designated Nationals or on the US Commerce Department\'s Denied Party or Entity List; and (c) to any prohibited country, person, end-user, or entity specified by US Export Laws. When using an MyFundraiserApp Application, you are responsible for complying with trade regulations and both foreign and domestic laws (e.g., you are not located in a country that is subject to a US Government embargo, or that has been designated by the US Government as a \"terrorist supporting\" country, and you are not listed on any US Government list of prohibited or restricted parties).\n			</p>\n\n			<p style=\"text-align: left;color:white;\">\n				<strong style=\"color:black;\">Additional Terms.</strong> Additional terms and conditions that apply to you based on the mobile device the Application is installed on: <br />\n				<strong style=\"color:black;\">iOS - Apple and Android</strong>\n				<ol>\n					<li style=\"text-align: left;color:white;\">1. These Terms of Use are an agreement between you and MyFundraiserApp, and not with Apple and Google Play. Apple and Google Play are not responsible for the Application and the content thereof.<br /></li>\n					<li style=\"text-align: left;color:white;\">2. MyFundraiserApp grants you the right to use the Application only on an iOS or Android products that you own or control and as permitted by the Usage Rules set forth in the App Store and Google Play Terms of Service.<br /></li>\n					<li style=\"text-align: left;color:white;\">3. Apple and Google Play have no obligation whatsoever to furnish any maintenance and support services with respect to the Application.<br /></li>\n					<li style=\"text-align: left;color:white;\">4. Apple and Google Play are not responsible for the investigation, defense, settlement, and discharge of any third party intellectual property infringement claim.<br /></li>\n					<li style=\"text-align: left;color:white;\">5. Apple and Google Play are not responsible for addressing any claims by you or any third party relating to the Application or your possession and/or use of the Application, including but not limited to: (a) product liability claims; (b) any claim that the Application fails to conform to any applicable legal or regulatory requirement; and (c) claims arising under consumer protection or similar legislation.<br /></li>\n				</ol>\n			</p>\n		</div>\n	</ion-content>\n</ion-view>\n");
 $templateCache.put("restaurant_payment.html","<ion-view cache-view=\"false\" view-title=\"{{view_title}}\" hide-back-button=\"{{hide_back_btn}}\"> <ion-content>\n	<h1>Restaurant.com\'s Voucher Payment</h1>\n	<div class=\"list list-inset formStyle\">\n		<label class=\"item item-input\" style=\"height: 55px !important;line-height: 55px !important;padding-left:10px\">\n			<select ng-model=\"formData.amount\" name=\"amount\" style=\"width: 100% !important; height: 55px !important;line-height: 55px !important;border:none;\">\n				<option value=\"\" style=\"width: 100%;\">Choose a deal</option>\n				<option value=\"3\" style=\"width: 100%;\">$10 voucher for $3</option>\n				<option value=\"6\" style=\"width: 100%;\">$25 voucher for $6</option>\n				<option value=\"15\" style=\"width: 100%;\">$50 voucher for $11</option>\n			</select>\n		</label>\n		<small style=\"color: #fff;font-size:11px;display:block;text-align: left;padding-left:11px;\">CC # must have spaces. Ex. 1111 2222 3333 4444</small>\n		<label class=\"item item-input\">\n			<input type=\"text\" name=\"credit_card\" ng-model=\"formData.number\" payments-validate=\"card\" payments-format=\"card\"\n				placeholder=\"Card Number\" ng-minlength=\"19\" ng-maxlength=\"19\" onkeypress=\"if(this.value.length > 18){event.preventDefault();}\"  /> <!--onblur=\"if(this.value.length < 19){alert(\'Credit card number cannot be less than 16 digits\');}\"-->\n		</label>\n		<small style=\"color: #fff;font-size:11px;display:block;text-align: left;padding-left:11px;\">MM/YY</small>\n		<label class=\"item item-input\">\n			<input type=\"text\" name=\"expiry\" ng-model=\"formData.expiry\" payments-validate=\"expiry\" payments-format=\"expiry\"\n				placeholder=\"MM/YY\" />\n		</label>\n		<label class=\"item item-input\">\n			<input type=\"text\" name=\"cvc\" ng-model=\"formData.cvv\" payments-validate=\"cvc\" payments-format=\"cvc\" placeholder=\"CVV\"  ng-minlength=\"3\" ng-maxlength=\"4\"/>\n		</label>\n		<label class=\"item item-input\">\n			<input type=\"text\" name=\"zipcode\" ng-model=\"formData.zipcode\" placeholder=\"Zip Code\"  ng-minlength=\"5\" ng-maxlength=\"5\"  onkeypress=\"if(this.value.length > 4){event.preventDefault();});\" />\n		</label>\n	</div>\n	<button class=\"button-full btn btn_yellow\"  style=\"margin:0 auto;width: 150px;\" ng-click=\"submitCCForm()\">Pay</button>\n</ion-content> </ion-view>\n");
@@ -4419,6 +4422,6 @@ $templateCache.put("start.html","<ion-view cache-view=\"false\" view-title=\"{{v
 $templateCache.put("supporter_card.html","<ion-view cache-view=\"false\"  view-title=\"{{view_title}}\" hide-back-button=\"{{hide_back_btn}}\"> <ion-content>\n<div style=\"text-align: right;padding-right: 20px;color:white;\"><a  style=\"color:white;font-size:13px;\"  href=\"#\" ng-click=\"merchants()\">CLICK TO VIEW BUSINESSES</a></div>\n<h1 style=\"color:white;font-weight:bolder;font-size:24px;\">Virtual Discount Card</h1>\n<p><strong>{{discount_data.organization.organisation_name}}</strong> {{discount_data.organization.organisation_city}} <strong>{{discount_data.organization.organisation_state}}</strong></p>\n<img ng-src=\"{{discount_data.organization.organisation_logo}}\" />\n<h1 style=\"text-align: center;font-weight: bolder;color:black;\">GOOD THRU: {{discount_data.code.expiry_date}}</h1>\n<p ng-if=\"discount.code.subscription_allowed > 1\">\n   {{data.company_name}}\n </p>\n<div style=\"float: left;width:45%;\"><a style=\"color:white;\" href=\"#\" ng-click=\"login();\">Login</a> <br/><button class=\"btn btn_blue\" style=\"font-size:22px;width:95%\"   ng-click=\"logout();\">Logout</button></div>\n<div style=\"float: right;width:45%;color:white;\"><strong>Card#</strong>{{discount_data.code.code}}</div>\n</ion-content>\n</ion-view>");
 $templateCache.put("supporter_home.html","<ion-view cache-view=\"false\" view-title=\"{{view_title}}\" hide-back-button=\"{{hide_back_btn}}\"> <ion-content>\n\n<h1>{{org.organisation_name}}</h1>\n	<p>{{org.organisation_city}}({{org.organisation_state}})</p><br/><br/>\n	<h2 class=\"headerH2\">\n		Number of biz<br />Participating <span style=\"color:#E0AD2E !important;\">{{org.participants}}</span> <a style=\"padding:5px;border:solid 1px #fff;border-radius: 20px;color:#E0AD2E !important;\" ng-click=\"merchants_view()\">View</a>\n		<br/><br/>\n		<div>Cost: {{org.cost}}</div>\n	</h2>\n\n	<button class=\"button button-full btn_wepay form_button\" ng-click=\"register_supporter()\" style=\"text-align: center\">\n		<img style=\"padding-right:3px;padding-bottom:3px;\" src=\"http://myfundraiserapp.com/addons/shared_addons/themes/prochista/img/cc_images.png\">\n\n	</button>\n	\n	<br/><span style=\"color:#fff !important;font-size:30px;font-weight: bolder;\">OR</span><br/>\n	<p><small style=\"color:#fff;\">If  a Supporter is sharing a code with you, please proceed by choosing the Cash option</small></p>\n	<button class=\"button button-full btn_cash form_button\" ng-click=\"cash_click()\">Cash</button>\n</ion-content> </ion-view>\n");
 $templateCache.put("tabs.html","<ion-nav-bar class=\"bar-positive\"> <ion-nav-back-button class=\"button-icon ion-arrow-left-c\">\n<img class=\"\" src=\"img/back.png\" />\n</ion-nav-back-button> \n<img class=\"header_img\" src=\"img/my_fund_logo_mini.png\" />\n</ion-nav-bar>\n\n<ion-nav-view name=\"public-view\"></ion-nav-view>");
-$templateCache.put("welcome.html","<ion-view cache-view=\"false\" view-title=\"{{view_title}}\" hide-back-button=\"{{hide_back_btn}}\">\n    <ion-content>\n        <h2 class=\"welcome_text\">Welcome to</h2>\n        <h1 class=\"org_name\">{{org.organisation_name}}</h1>\n        <p>{{org.organisation_city}} ({{org.organisation_state}})</p>\n        <h3 class=\"iam\">I AM</h3>\n        <button class=\"btn btn_yellow\" ng-click=\"supporter_home_view()\" style=\"width:95%;font-size:18px;\">A Supporter</button>\n        <button class=\"btn btn_blue\" ng-click=\"member_click()\" style=\"width:95%;font-size:18px;\">A Member of the Organization</button>\n    </ion-content>\n</ion-view>\n");
+$templateCache.put("welcome.html","<ion-view cache-view=\"false\" view-title=\"{{view_title}}\" hide-back-button=\"{{hide_back_btn}}\">\n    <ion-content>\n        <h2 class=\"welcome_text\">Welcome to</h2>\n        <h1 class=\"org_name\">{{org.organisation_name}}</h1>\n        <p>{{org.organisation_city}} ({{org.organisation_state}})</p>\n        <h3 class=\"iam\">I AM</h3>\n        <button class=\"btn btn_yellow\" ng-click=\"supporter_home_view()\" style=\"width:95%;font-size:18px;\">A Supporter</button>\n        <button class=\"btn btn_blue\" ng-click=\"member_click()\" style=\"width:95%;font-size:14px;\">A Member of the Organization</button>\n    </ion-content>\n</ion-view>\n");
 $templateCache.put("modals/modal.html","<ion-modal-view class=\"newModals\"> <ion-content>\n<h3>{{modaldata.title}}</h3>\n<h4>{{modaldata.body}}</h4>\n</ion-content> </ion-modal-view>");
 $templateCache.put("modals/modal_error.html","<ion-modal-view class=\"newModals\">\n    <ion-content>\n        <h3>{{modaldata.title}}\n	</h3>\n        <h4>{{modaldata.body}}</h4>\n        <p ng-show=\"modaldata.description\">{{modaldata.description}}</p>\n    </ion-content>\n</ion-modal-view>");}]);
