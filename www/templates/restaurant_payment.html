@@ -20,7 +20,7 @@
 				placeholder="MM/YY" />
 		</label>
 		<label class="item item-input">
-			<input type="text" name="cvc" ng-model="formData.cvv" payments-validate="cvc" payments-format="cvc" placeholder="CVV"  ng-minlength="3" ng-maxlength="4"/>
+			<input type="text" name="cvc" ng-model="formData.cvv" payments-validate="cvc" payments-format="cvc" placeholder="CVV : 3 DIGIT CODE ON BACK OF CARD"  ng-minlength="3" ng-maxlength="4"/>
 		</label>
 		<label class="item item-input">
 			<input type="text" name="zipcode" ng-model="formData.zipcode" placeholder="Zip Code"  ng-minlength="5" ng-maxlength="5"  onkeypress="if(this.value.length > 4){event.preventDefault();});" />
