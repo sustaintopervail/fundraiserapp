@@ -18,9 +18,10 @@ case 'staging':
 		secureUrl : 'https://api.myfundraiserapp.com/',
 		apiUrl : 'http://api.myfundraiserapp.com/',
 		sharedToken : '123',
-		wepay_endpoint : "stage", // stage or production
-		wepay_client_id : "113700"
-
+		/*wepay_endpoint : "stage", // stage or production
+		wepay_client_id : "113700"*/
+		wepay_endpoint : "production", // stage or production
+		wepay_client_id : "1347439844"
 	};
 	break;
 case 'production':
@@ -30,8 +31,8 @@ case 'production':
 		secureUrl : 'https://api.myfundraiserapp.com/',
 		apiUrl : 'http://api.myfundraiserapp.com/',
 		sharedToken : '123',
-		wepay_endpoint : "stage", // stage or production
-		wepay_client_id : "113700"
+		wepay_endpoint : "production", // stage or production
+		wepay_client_id : "1347439844"
 	};
 	break;
 
