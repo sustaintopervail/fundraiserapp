@@ -19,7 +19,7 @@ starter.controller('PaymentCtrl', [
 		$scope.formData = {
 			name : "h a",
 			number : "4111 1111 1111",
-			expiry : "12/16",
+			//expiry : "12/16",
 			email : "imhassan66@gmail.com",
 			zipcode : '21022',
 			cvv : "123"/*,
@@ -29,7 +29,7 @@ starter.controller('PaymentCtrl', [
 		$scope.formData = {
 			name : "",
 			number : "",
-			expiry : "",
+			//expiry : "",
 			email : "",
 			zipcode : '',
 			cvv : "",

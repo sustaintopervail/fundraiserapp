@@ -4,7 +4,7 @@
 	<!--<label class="item item-input">
 		<input type="text" name="name" ng-model="formData.name" placeholder="Full Name" />
 	</label>-->
-	<small style="color: #fff;font-size:12px;display:block;text-align: left;padding-left:11px;">CC # must have spaces. Ex. 1111 2222 3333 4444</small>
+	<small style="color: #fff;font-size:14px;font-weight:bold;display:block;text-align: left;padding-left:11px;">CC # must have spaces. Ex. 1111 2222 3333 4444</small>
 	<label class="item item-input">
 		<input type="text" name="credit_card" ng-model="formData.number" payments-validate="card" payments-format="card" placeholder="Card Number" ng-minlength="19" ng-maxlength="19" onkeypress="if(this.value.length > 18){event.preventDefault();}" /> <!--onblur="if(this.value.length < 19){alert('Credit card number cannot be less than 16 digits');}"-->
 	</label>
@@ -12,7 +12,7 @@
 	<!--<label class="item item-input">
 		<input type="text" name="email" ng-model="formData.email" placeholder="Email" />
 	</label>-->
-	<small style="color: #fff;font-size:12px;display:block;text-align: left;padding-left:11px;">MM/YY</small>
+	<small style="color: #fff;font-size:14px;font-weight:bold;display:block;text-align: left;padding-left:11px;">MM/YY</small>
 	<label class="item item-input">
 		<input type="text" name="expiry" ng-model="formData.expiry" payments-validate="expiry" payments-format="expiry"
 			placeholder="MM/YY" />
