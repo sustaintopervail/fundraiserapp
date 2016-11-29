@@ -21,7 +21,7 @@ case 'staging':
 		/*wepay_endpoint : "stage", // stage or production
 		wepay_client_id : "113700"*/
 		wepay_endpoint : "production", // stage or production
-		wepay_client_id : "1347439844"
+		wepay_client_id : "9068"
 	};
 	break;
 case 'production':
@@ -32,7 +32,7 @@ case 'production':
 		apiUrl : 'http://api.myfundraiserapp.com/',
 		sharedToken : '123',
 		wepay_endpoint : "production", // stage or production
-		wepay_client_id : "1347439844"
+		wepay_client_id : "9068"
 	};
 	break;
 
