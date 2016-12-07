@@ -17,7 +17,7 @@
 		<!--<p style="color: #FF69B4 !important;">Offer: {{mrg.offer}}</p>
 		<p>Approved by: {{mrg.owner}}</p>-->
 	</li>
-	<li class='item' ng-repeat="mrg in merchants">
+	<li class='item' ng-repeat="mrg in global_merchants">
 		<strong style="color: #000 !important; font-weight: bolder !important; font-size: 16px !important;">{{mrg.merchant_name}}</strong>
 		<p>Address: {{mrg.address}}</p>
 		<p>
@@ -28,6 +28,17 @@
 		<p style="color: #FF69B4 !important;" ng-if="is_vc">{{mrg.code_offer}}<br />
 			<a href="{{mrg.code_offer_url}}">Click here to check out the offer</a>
 		</p>
+		<p>Approved by: {{mrg.owner}}</p>
+	</li>
+	<li class='item' ng-repeat="mrg in merchants">
+		<strong style="color: #000 !important; font-weight: bolder !important; font-size: 16px !important;">{{mrg.merchant_name}}</strong>
+		<p>Address: {{mrg.address}}</p>
+		<p>
+			Phone:
+			<a ng-click="triggerCall('{{mrg.business_phone}}')" href="#">{{mrg.business_phone}}</a>
+		</p>
+		<p style="color: #FF69B4 !important;">Offer: {{mrg.offer}}</p>
+		<p style="color: #FF69B4 !important;" ng-if="is_vc">{{mrg.code_offer}}</p>
 		<p>Approved by: {{mrg.owner}}</p>
 	</li>
 </ul>

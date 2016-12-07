@@ -30,6 +30,20 @@ starter.factory('fundModel', [ '$http', '$q', 'config', 'utils', 'localStorageSe
 			return deffered.promise;
 		};
 
+		var get_global_merchants = function(organisation_id) {
+			var deffered = $q.defer();
+			$http({
+				method : 'POST',
+				url : config.apiUrl + "merchantRest/restList?universal=1",
+				data : {}
+			}).success(function(data, status, headers, config) {
+				deffered.resolve(data);
+			}).error(function(data, status, headers, config) {
+				deffered.reject(status);
+			});
+			return deffered.promise;
+		};
+
 		var get_code = function(data) {
 			var deffered = $q.defer();
 			$http({
@@ -48,7 +62,8 @@ starter.factory('fundModel', [ '$http', '$q', 'config', 'utils', 'localStorageSe
 		return {
 			get_organizations : get_organizations,
 			get_code : get_code,
-			get_merchants : get_merchants
+			get_merchants : get_merchants,
+			get_global_merchants : get_global_merchants
 		};
 
 	} ]);

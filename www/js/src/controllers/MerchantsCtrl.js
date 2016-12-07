@@ -15,6 +15,7 @@ starter.controller('MerchantsCtrl',
 			$scope.view_title = "Supporter";
 			$scope.hide_back_btn = false;
 			$scope.merchants = null;
+			$scope.global_merchants = null;
 
 			var _org = userDataService.getOrg();
 			$scope.sms = (_org) ? true : false;
@@ -32,6 +33,20 @@ starter.controller('MerchantsCtrl',
 				if (JsonData.data.success) {
 					$scope.merchants = JsonData.data.merchant;
 				}
+			}, function(status) {
+				$rootScope.hide_spinner();
+			});
+
+			var _orgPromise = fundModel.get_global_merchants(_org.id);
+
+			_orgPromise.then(function(JsonData) {
+				$rootScope.hide_spinner();
+				utils.debug('JsonData recieved');
+				utils.debug(JSON.stringify(JsonData));
+				if (JsonData.data.success) {
+					$scope.global_merchants = JsonData.data.merchant;
+				}
+
 			}, function(status) {
 				$rootScope.hide_spinner();
 			});
