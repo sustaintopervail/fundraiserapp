@@ -25,7 +25,7 @@
 			<a ng-click="triggerCall('{{mrg.business_phone}}')" href="#">{{mrg.business_phone}}</a>
 		</p>
 		<p style="color: #FF69B4 !important;">Offer: {{mrg.offer}}</p>
-		<p style="color: #FF69B4 !important;" ng-if="is_vc">{{mrg.code_offer}}<br />
+		<p style="color: #FF69B4 !important;text-overflow:unset !important;overflow: visible !important;" ng-if="is_vc">{{mrg.code_offer}}<br />
 			<a href="{{mrg.code_offer_url}}">Click here to check out the offer</a>
 		</p>
 		<p>Approved by: {{mrg.owner}}</p>
@@ -37,7 +37,7 @@
 			Phone:
 			<a ng-click="triggerCall('{{mrg.business_phone}}')" href="#">{{mrg.business_phone}}</a>
 		</p>
-		<p style="color: #FF69B4 !important;">Offer: {{mrg.offer}}</p>
+		<p style="color: #FF69B4 !important;text-overflow:unset !important;overflow: visible !important;">Offer: {{mrg.offer}}</p>
 		<p style="color: #FF69B4 !important;" ng-if="is_vc">{{mrg.code_offer}}</p>
 		<p>Approved by: {{mrg.owner}}</p>
 	</li>
