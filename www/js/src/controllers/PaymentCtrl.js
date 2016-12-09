@@ -126,7 +126,7 @@ starter.controller('PaymentCtrl', [
 				"expiration_month" : expiry_split[0],
 				"expiration_year" : expiry_split[1],
 				"address" : {
-					"zip" : udata.zipcode
+					"postal_code" : udata.zipcode
 				}
 			}, cb);
 		}
