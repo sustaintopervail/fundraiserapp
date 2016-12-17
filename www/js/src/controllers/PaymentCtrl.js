@@ -126,10 +126,14 @@ starter.controller('PaymentCtrl', [
 				"expiration_month" : parseInt(expiry_split[0]),
 				"expiration_year" : parseInt(expiry_split[1]),
 				"address" : {
+					"country": "US",
 					"postal_code" : udata.zipcode
 				}
+
+
 			}, cb);
 		}
+
 		var make_payment = function() {
 			utils.debug("make_payment....");
 			var paymentData = {

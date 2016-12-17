@@ -131,9 +131,10 @@ starter.controller('RestaurantPaymentCtrl', [
 				"email" : localStorageService.get('email'),
 				"cc_number" : udata.number,
 				"cvv" : udata.cvv,
-				"expiration_month" : expiry_split[0],
-				"expiration_year" : expiry_split[1],
+				"expiration_month" : parseInt(expiry_split[0]),
+				"expiration_year" : parseInt(expiry_split[1]),
 				"address" : {
+					"country": "US",
 					"postal_code" : udata.zipcode
 				}
 			}, cb);
